@@ -1,3 +1,6 @@
+using AutoOnderdelenSite.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace AutoOnderdelenSite
 {
     public class Program
@@ -8,6 +11,11 @@ namespace AutoOnderdelenSite
 
             // Add services to the container.
             builder.Services.AddRazorPages();
+
+            builder.Services.AddDbContext<AutoDbContext>(
+                opt => opt.UseSqlite(builder.Configuration.GetConnectionString("AutoDbContext")));
+
+            builder.Services.AddScoped<AutoStoreDatabase>();
 
             var app = builder.Build();
 
@@ -29,6 +37,7 @@ namespace AutoOnderdelenSite
             app.MapRazorPages();
 
             app.Run();
+
         }
     }
 }

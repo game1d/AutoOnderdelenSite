@@ -1,11 +1,25 @@
-﻿@page
+﻿@page "/"
 @model MainPageModel
 @{
     ViewData["Title"] = "Home page";
 }
 
+<h2>Dit is om even te testen</h2>
+<table class="table">
+    @foreach (Models.Particulier _particulier in Model.particulieren)
+    {
+        <tr>
+            <td>@_particulier.VoorNaam</td>
+            <td>@_particulier.AchterNaam</td>
+            <td>@_particulier.TelefoonNummer</td>
+        </tr>
+    }
+    @foreach (Models.TweedeHandsAdvertentie _tweedeHands in Model.tweedeHandsAdvertenties)
+    {
+        <tr>
+            <td>@_tweedeHands.ProductId</td>
+            <td>@_tweedeHands.StaatProduct</td>
+        </tr>
+    }
+</table>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
