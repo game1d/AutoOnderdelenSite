@@ -1,0 +1,42 @@
+﻿@page
+@model AutoOnderdelenSite.Pages.ParticulierAanmakenModel
+@{
+}
+@if(Model.Errormessage!=null)
+
+{<h1>@Model.Errormessage</h1>}
+
+<form method="post">
+    <table>
+        <tr>
+            <td><label for="UserNameInput">Usernaam</label></td>
+            <td><label for="WachtwoordInput">Wachtwoord</label></td>
+            <td><label for="EmailInput">Email</label></td>
+            <td><label for="AdresInput">Adres</label></td>
+
+        </tr>
+        <tr>
+            <td><input asp-for="UserNameInput" type="text" name="UserNameInput" id="UserNameInput"></input></td>
+            <td><input asp-for="WachtwoordInput" type="password" name="WachtwoordInput" id="WachtwoordInput"></input></td>
+            <td><input asp-for="EmailInput" type="email" name="EmailInput" id="EmailInput"></input></td>
+            <td><input asp-for="AdresInput" type="text" name="AdresInput" id="AdresInput"></input></td>
+
+        </tr>
+        <tr>
+            <td><label for="VoorNaamInput">Voornaam</label></td>
+            <td><label for="AchterNaamInput">Achternaam</label></td>
+            <td><label for="TelefoonNummerInput">Telefoonnummer</label></td>
+            <td><label for="BetaalGegevensInput">Betaalgegevens</label></td>
+        </tr>
+        <tr>
+            <td><input asp-for="VoorNaamInput" type="text" name="VoorNaamInput" id="VoorNaamInput"></input></td>
+            <td><input asp-for="AchterNaamInput" type="text" name="AchterNaamInput" id="AchterNaamInput"></input></td>
+            <td><input asp-for="TelefoonNummerInput" type="tel" name="TelefoonNummerInput" id="TelefoonNummerInput"></input></td>
+            <td><input asp-for="BetaalGegevensInput" type="text" name="BetaalGegevensInput" id="BetaalGegevensInput"></input></td>
+        </tr>
+        <button type="submit" class="btn btn-primary">Aanmaken</button>
+    </table>
+</form>
+
+
+<a class="btn btn-primary" asp-page="UserAanmaken"> Terug </a>

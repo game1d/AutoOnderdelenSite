@@ -1,0 +1,26 @@
+﻿@page
+@model AutoOnderdelenSite.Pages.BedrijfLoginModel
+@{
+}
+
+<h3>Login voor bedrijven</h3>
+
+<h3>@Model.Message</h3>
+
+<form method="post">
+    <table>
+        <tr>
+            <td><label for="EmailInput">Emailadres:</label></td>
+            <td><input asp-for="EmailInput" type="email"/></td>
+        </tr>
+        <tr>
+            <td><label for="WachtwoordInput">Wachtwoord:</label></td>
+            <td><input asp-for="WachtwoordInput" type="password" /></td>
+        </tr>
+        <tr>
+            <td><button type="submit">inloggen</button></td>
+        </tr>
+    </table>
+</form>
+
+<a class="btn btn-primary" asp-page="MainPage"> Annuleer </a>

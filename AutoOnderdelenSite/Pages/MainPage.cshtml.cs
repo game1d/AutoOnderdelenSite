@@ -25,13 +25,26 @@ namespace AutoOnderdelenSite.Pages
         public IList<TweedeHandsAdvertentie> tweedeHandsAdvertenties { get; set; }
         [BindProperty]
         public TweedeHandsAdvertentie tweedeHandsAdvertentie { get; set; }
+        [BindProperty]
+        public string currentUserId { get; set; }
 
+        [BindProperty]
+        public string partOfBedrijf {  get; set; }
         public async void OnGet()
         {
+            currentUserId = Request.Cookies["UserId"];
+            partOfBedrijf = Request.Cookies["PartOfBedrijf"];
+
             particulieren = await autoStoreDatabase.GetParticulierenAsnyc();
             tweedeHandsAdvertenties = await autoStoreDatabase.GetTweedeHandsAdvertentiesAsync();
         }
 
+        public ActionResult OnPost() 
+        {
+            Response.Cookies.Delete("UserId");
+            Response.Cookies.Delete("PartOfBedrijf");
+            return RedirectToPage();
+        }
 
     }
 }

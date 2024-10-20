@@ -3,7 +3,18 @@
 @{
     ViewData["Title"] = "Home page";
 }
+@if (Model.currentUserId != null)
+{
+    <form method="post"><button class="btn btn-primary"> Logout </button></form>
+}
 
+else
+{
+    <a class="btn btn-primary" asp-page="BedrijfLogin"> Bedrijf Login </a>
+
+    <a class="btn btn-primary" asp-page="ParticulierLogin"> Particulier Login </a>
+}
+  
 <h2>Dit is om even te testen</h2>
 <table class="table">
     @foreach (Models.Particulier _particulier in Model.particulieren)
@@ -22,4 +33,7 @@
         </tr>
     }
 </table>
+
+
+<a class="btn btn-primary" asp-page="UserAanmaken"> User Aanmaken </a>
 
