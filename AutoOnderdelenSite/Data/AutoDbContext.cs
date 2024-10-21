@@ -31,12 +31,12 @@ namespace AutoOnderdelenSite.Data
                 );
 
             modelBuilder.Entity<Product>().HasData(
-                new Product { ProductId = 1, ProductName = "Poel wiel", ProductType = "Wiel", Omschrijving = "Een wiel van het merk Poel" },
-                new Product { ProductId = 2, ProductName = "Merdeces wiel", ProductType = "Wiel", Omschrijving = "Een wiel van het merk Merdeces" },
-                new Product { ProductId = 3, ProductName = "Poel ruitenwisser", ProductType = "Ruitenwisser", Omschrijving = "Een ruitenwisser van het merk Poel" },
-                new Product { ProductId = 4, ProductName = "Merdeces ruitenwisser", ProductType = "Ruitenwisser", Omschrijving = "Een ruitenwisser van het merk Merdeces" },
-                new Product { ProductId = 5, ProductName = "Nitroen knalpijp", ProductType = "Knalpijp", Omschrijving = "Een knalpijp van het merk Nitroen" },
-                new Product { ProductId = 6, ProductName = "Poel stoel", ProductType = "Stoel", Omschrijving = "Een stoel van het merk Nitroen" }
+                new Product { ProductId = 1, ProductNaam = "Poel wiel", ProductType = "Wiel", Omschrijving = "Een wiel van het merk Poel" },
+                new Product { ProductId = 2, ProductNaam = "Merdeces wiel", ProductType = "Wiel", Omschrijving = "Een wiel van het merk Merdeces" },
+                new Product { ProductId = 3, ProductNaam = "Poel ruitenwisser", ProductType = "Ruitenwisser", Omschrijving = "Een ruitenwisser van het merk Poel" },
+                new Product { ProductId = 4, ProductNaam = "Merdeces ruitenwisser", ProductType = "Ruitenwisser", Omschrijving = "Een ruitenwisser van het merk Merdeces" },
+                new Product { ProductId = 5, ProductNaam = "Nitroen knalpijp", ProductType = "Knalpijp", Omschrijving = "Een knalpijp van het merk Nitroen" },
+                new Product { ProductId = 6, ProductNaam = "Poel stoel", ProductType = "Stoel", Omschrijving = "Een stoel van het merk Nitroen" }
                 );
 
             modelBuilder.Entity<TweedeHandsAdvertentie>().HasData(

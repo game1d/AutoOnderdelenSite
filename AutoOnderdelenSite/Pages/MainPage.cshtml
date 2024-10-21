@@ -3,12 +3,22 @@
 @{
     ViewData["Title"] = "Home page";
 }
-@if (Model.currentUserId != null)
+
+@if (Model.partOfBedrijf == "Bedrijf")
 {
+    <p>Een bedrijf is ingelogd</p>
     <form method="post"><button class="btn btn-primary"> Logout </button></form>
+    <a asp-page="/BedrijfUserPagina" class="btn btn-primary">User pagina</a>
 }
 
-else
+@if (Model.partOfBedrijf == "Particulier")
+{
+    <p>Een particulier is ingelogd</p>
+    <form method="post"><button class="btn btn-primary"> Logout </button></form>
+    <a asp-page="/ParticulierUserPagina" class="btn btn-primary">User pagina</a>
+}
+
+@if(Model.partOfBedrijf==null)
 {
     <a class="btn btn-primary" asp-page="BedrijfLogin"> Bedrijf Login </a>
 

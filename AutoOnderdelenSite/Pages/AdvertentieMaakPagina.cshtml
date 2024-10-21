@@ -1,0 +1,53 @@
+﻿@page
+@model AutoOnderdelenSite.Pages.AdvertentieMaakPaginaModel
+@{
+}
+
+
+@if(Model.advertentiesoort=="nieuw")
+{
+    <form method="post">
+        <label for="ProductId">Product:</label>
+        <select asp-for="ProductIdInput" name="ProductId" id="ProductId">
+            @foreach(Models.Product _product in Model.products)
+            {
+                <option value="@_product.ProductId">@_product.ProductNaam</option>
+            }
+        </select>
+        <label for="Aantal">aantal:</label><input asp-for="AantalInput" name="Aantal" id="Aantal" type="number" />
+        <button asp-page-handler="NieuwAdvertentieMaken" type="submit">Maak Advertentie</button>
+    </form>
+    <a asp-page="/BedrijfUserPagina" class="btn btn-primary">annuleer</a>
+}
+
+@if (Model.advertentiesoort == "refurbished")
+{
+    <form method="post">
+        <label for="ProductId">Product:</label>
+        <select asp-for="ProductIdInput" name="ProductIdInput" id="ProductIdInput">
+            @foreach (Models.Product _product in Model.products)
+            {
+                <option value="@_product.ProductId">@_product.ProductNaam</option>
+            }
+        </select>
+        <label for="StaatProductInput">Staat van het product:</label><input asp-for="StaatProductInput" name="StaatProductInput" id="StaatProductInput" type="text" />
+        <button asp-page-handler="RefurbishedAdvertentieMaken" type="submit">Maak Advertentie</button>
+    </form>
+    <a asp-route="/BedrijfUserPagina" class="btn btn-primary">annuleer</a>
+}
+
+@if (Model.advertentiesoort == "tweedehands")
+{
+    <form method="post">
+        <label for="ProductId">Product:</label>
+        <select asp-for="ProductIdInput" name="ProductIdInput" id="ProductIdInput">
+            @foreach (Models.Product _product in Model.products)
+            {
+                <option value="@_product.ProductId">@_product.ProductNaam</option>
+            }
+        </select>
+        <label for="StaatProductInput">Staat van het product:</label><input asp-for="StaatProductInput" name="StaatProductInput" id="StaatProductInput" type="text" />
+        <button asp-page-handler="TweedeHandsAdvertentieMaken" type="submit">Maak Advertentie</button>
+    </form>
+    <a asp-route="/ParticulierUserPagina" class="btn btn-primary">annuleer</a>
+}

@@ -15,6 +15,13 @@ namespace AutoOnderdelenSite.Pages
         }
         [BindProperty]
         public Bedrijf Bedrijf { get; set; }
+        [BindProperty]
+        public string ProductNaamInput {  get; set; }
+        [BindProperty]
+        public string OmSchrijvingInput { get; set; }
+        [BindProperty]
+        public string ProductTypeInput { get; set; }
+
         public async void OnGet()
         {
             int id = Convert.ToInt32( Request.Cookies["UserId"]);
@@ -27,5 +34,17 @@ namespace AutoOnderdelenSite.Pages
             Response.Cookies.Delete("PartOfBedrijf");
             return RedirectToPage("MainPage");
         }
+
+        public async Task<ActionResult> OnPostVoegProductToe()
+        {
+            Product niewProduct= new Product();
+            niewProduct.ProductType= ProductTypeInput;
+            niewProduct.ProductNaam= ProductNaamInput;
+            niewProduct.Omschrijving= OmSchrijvingInput;
+            await autoStoreDatabase.VoegProductToe(niewProduct);
+
+            return RedirectToPage();
+        }
+
     }
 }

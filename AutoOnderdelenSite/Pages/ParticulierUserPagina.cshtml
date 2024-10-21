@@ -5,6 +5,16 @@
 
 <h2>Dit is de pagina van @Model.Particulier.UserName</h2>
 
+<a asp-page="AdvertentieMaakPagina" asp-route-SoortAdvertentie="tweedehands" class="btn btn-primary">maak advertentie voor een tweedehands product</a>
+
+<h3>advertenties voor nieuwe producten</h3>
+@foreach (Models.TweedeHandsAdvertentie _adv in Model.Particulier.TweedeHandsAdvertenties)
+{
+    <p>@_adv.Product.ProductNaam @_adv.Product.ProductType</p>
+    <p>@_adv.Product.Omschrijving</p><p>@_adv.StaatProduct</p>
+}
+
+
 <form method="post"><button class="btn btn-primary"> Logout </button></form>
 
 <a class="btn btn-primary" asp-page="MainPage"> Homepage </a>

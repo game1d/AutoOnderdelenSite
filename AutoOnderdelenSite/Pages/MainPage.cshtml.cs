@@ -35,7 +35,7 @@ namespace AutoOnderdelenSite.Pages
             currentUserId = Request.Cookies["UserId"];
             partOfBedrijf = Request.Cookies["PartOfBedrijf"];
 
-            particulieren = await autoStoreDatabase.GetParticulierenAsnyc();
+            particulieren = await autoStoreDatabase.GetParticulierenAsync();
             tweedeHandsAdvertenties = await autoStoreDatabase.GetTweedeHandsAdvertentiesAsync();
         }
 

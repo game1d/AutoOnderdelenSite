@@ -7,4 +7,34 @@
 
 <form method="post"><button class="btn btn-primary"> Logout </button></form>
 
+
+<a asp-page="AdvertentieMaakPagina" asp-route-SoortAdvertentie="nieuw" class="btn btn-primary">maak advertentie voor nieuw</a>
+
+<a asp-page="AdvertentieMaakPagina" asp-route-SoortAdvertentie="refurbished" class="btn btn-primary">maak advertentie voor refurbished</a>
+
+<h3>advertenties voor nieuwe producten</h3>
+@foreach (Models.NieuwProductAdvertentie _nieuw in Model.Bedrijf.NieuwProductAdvertenties)
+{
+    <p>@_nieuw.Product.ProductNaam</p>
+    <p>@_nieuw.Product.ProductType</p>
+    <p>@_nieuw.Product.Omschrijving</p>
+    <p>@_nieuw.Aantal</p>
+}
+<h3>Advertenties voor refurbished producten</h3>
+@foreach (Models.RefurbishedAdvertentie _ref in Model.Bedrijf.RefurbishedAvertenties)
+{
+    <p>@_ref.Product.ProductNaam</p>
+    <p>@_ref.Product.ProductType</p>
+    <p>@_ref.Product.Omschrijving</p>
+    <p>@_ref.StaatProduct</p>
+}
+
+<form method="post">
+    <label for="ProductNaamInput">Productnaam:</label><input asp-for="ProductNaamInput" />
+    <label for="OmSchrijvingInput">Omschrijving:</label><input asp-for="OmSchrijvingInput" />
+    <label for="ProductTypeInput">Producttype:</label><input asp-for="ProductTypeInput" />
+    *<br />
+    <button asp-page-handler="VoegProductToe">Voeg Toe</button>
+</form>
+
 <a class="btn btn-primary" asp-page="MainPage"> Homepage </a>
