@@ -15,6 +15,8 @@ namespace AutoOnderdelenSite.Pages
         }
         [BindProperty]
         public Particulier Particulier { get; set; }
+        [BindProperty]
+        public int AdId {  get; set; }
         public async void OnGet()
         {
             int id = Convert.ToInt32(Request.Cookies["UserId"]);
@@ -25,6 +27,13 @@ namespace AutoOnderdelenSite.Pages
             Response.Cookies.Delete("UserId");
             Response.Cookies.Delete("PartOfBedrijf");
             return RedirectToPage("MainPage");
+        }
+
+        public async Task<ActionResult> OnPostDeleteAd(int Adid)
+        {
+            autoStoreDatabase.VerwijderTweedeHandsAdvertentie(Adid);
+
+            return RedirectToPage();
         }
     }
 }

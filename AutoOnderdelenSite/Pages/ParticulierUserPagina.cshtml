@@ -7,12 +7,33 @@
 
 <a asp-page="AdvertentieMaakPagina" asp-route-SoortAdvertentie="tweedehands" class="btn btn-primary">maak advertentie voor een tweedehands product</a>
 
-<h3>advertenties voor nieuwe producten</h3>
-@foreach (Models.TweedeHandsAdvertentie _adv in Model.Particulier.TweedeHandsAdvertenties)
-{
-    <p>@_adv.Product.ProductNaam @_adv.Product.ProductType</p>
-    <p>@_adv.Product.Omschrijving</p><p>@_adv.StaatProduct</p>
-}
+<h3>advertenties voor tweede hands producten</h3>
+<table class="table">
+    <tr>
+        <th>Productnaam</th>
+        <th>Producttype</th>
+        <th>Omschrijving</th>
+        <th>Staat van het product</th>
+    </tr>
+    @foreach (Models.TweedeHandsAdvertentie _adv in Model.Particulier.TweedeHandsAdvertenties)
+    {
+        <tr>
+            <td>@_adv.Product.ProductNaam</td>
+            <td>@_adv.Product.ProductType</td>
+            <td>@_adv.Product.Omschrijving</td>
+            <td>@_adv.StaatProduct</td>
+        </tr>
+        <tr>
+            <td>
+                <form method="post">
+                    <button asp-page-handler="DeleteAd" asp-route-Adid="@_adv.AdvertentieId" class="btn btn-danger">Verwijder</button>
+                </form>
+            </td>
+        </tr>
+    }
+
+</table>
+
 
 
 <form method="post"><button class="btn btn-primary"> Logout </button></form>

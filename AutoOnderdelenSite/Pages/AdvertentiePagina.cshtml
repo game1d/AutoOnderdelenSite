@@ -1,0 +1,84 @@
+﻿@page
+@model AutoOnderdelenSite.Pages.AdvertentiePaginaModel
+@{
+}
+
+
+@if (Model.AdvertentieSoort == "Tweedehands")
+{
+    <table>
+        <tr>
+            <th>Productnaam</th>
+            <th>Producttype</th>
+            <th>Omschrijving</th>
+            <th>Staat van het product</th>
+        </tr>
+        <tr>
+            <td>@Model.TweedAdv.Product.ProductNaam</td>
+            <td>@Model.TweedAdv.Product.ProductType</td>
+            <td>@Model.TweedAdv.Product.Omschrijving</td>
+            <td>@Model.TweedAdv.StaatProduct</td>
+        </tr>
+    </table>
+    <tr>
+        <td>
+            <form method="post">
+                <button asp-page-handler="Koop" class="btn btn-primary">Koop</button>
+            </form>
+        </td>
+    </tr>
+}
+
+@if (Model.AdvertentieSoort == "Refurbished")
+{
+    {
+        <table>
+            <tr>
+                <th>Productnaam</th>
+                <th>Producttype</th>
+                <th>Omschrijving</th>
+                <th>Staat van het product</th>
+            </tr>
+            <tr>
+                <td>@Model.RefurAdv.Product.ProductNaam</td>
+                <td>@Model.RefurAdv.Product.ProductType</td>
+                <td>@Model.RefurAdv.Product.Omschrijving</td>
+                <td>@Model.RefurAdv.StaatProduct</td>
+            </tr>
+        </table>
+        <tr>
+            <td>
+                <form method="post">
+                    <button asp-page-handler="Koop" class="btn btn-primary">Koop</button>
+                </form>
+            </td>
+        </tr>
+    }
+}
+
+@if (Model.AdvertentieSoort == "Nieuw")
+{
+    <table class="table">
+        <tr>
+            <th>Productnaam</th>
+            <th>Producttype</th>
+            <th>Omschrijving</th>
+            <th>Aantal</th>
+        </tr>
+
+        <tr>
+            <td>@Model.NieuwAdv.Product.ProductNaam</td>
+            <td>@Model.NieuwAdv.Product.ProductType</td>
+            <td>@Model.NieuwAdv.Product.Omschrijving</td>
+            <td>@Model.NieuwAdv.Aantal</td>
+        </tr>
+        <tr>
+            <td>
+                <form method="post">
+                    <button asp-page-handler="Koop" class="btn btn-primary">Koop</button>
+                </form>
+            </td>
+        </tr>
+
+    </table>
+}

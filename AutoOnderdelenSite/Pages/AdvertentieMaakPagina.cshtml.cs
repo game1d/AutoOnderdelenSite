@@ -40,7 +40,7 @@ namespace AutoOnderdelenSite.Pages
             NieuwProdAd.UserId = Convert.ToInt32(Request.Cookies["UserId"]);
             NieuwProdAd.ProductId = ProductIdInput;
             NieuwProdAd.Aantal = AantalInput;
-            await autoStoreDatabase.VoegNieuwAdvertentieTo(NieuwProdAd);
+            await autoStoreDatabase.VoegNieuwAdvertentieToe(NieuwProdAd);
             return RedirectToPage("BedrijfUserPagina");
         }
         public async Task<ActionResult> OnPostRefurbishedAdvertentieMaken()

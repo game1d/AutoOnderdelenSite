@@ -18,32 +18,101 @@
     <a asp-page="/ParticulierUserPagina" class="btn btn-primary">User pagina</a>
 }
 
-@if(Model.partOfBedrijf==null)
+@if (Model.partOfBedrijf == null)
 {
     <a class="btn btn-primary" asp-page="BedrijfLogin"> Bedrijf Login </a>
 
     <a class="btn btn-primary" asp-page="ParticulierLogin"> Particulier Login </a>
 }
-  
-<h2>Dit is om even te testen</h2>
-<table class="table">
-    @foreach (Models.Particulier _particulier in Model.particulieren)
-    {
-        <tr>
-            <td>@_particulier.VoorNaam</td>
-            <td>@_particulier.AchterNaam</td>
-            <td>@_particulier.TelefoonNummer</td>
-        </tr>
-    }
-    @foreach (Models.TweedeHandsAdvertentie _tweedeHands in Model.tweedeHandsAdvertenties)
-    {
-        <tr>
-            <td>@_tweedeHands.ProductId</td>
-            <td>@_tweedeHands.StaatProduct</td>
-        </tr>
-    }
-</table>
-
 
 <a class="btn btn-primary" asp-page="UserAanmaken"> User Aanmaken </a>
 
+<br />
+<br />
+<form method="post">
+    <input asp-for="ZoekTerm" type="text" />
+    <button asp-page-handler="Zoek" type="submit" class="btn btn-primary">zoek</button>
+</form>
+<br />
+
+@if (Model.tweedeHandsAdvResult != null)
+{
+    <h3>advertenties voor tweede hands producten</h3>
+    <table class="table">
+        <tr>
+            <th>Productnaam</th>
+            <th>Producttype</th>
+            <th>Omschrijving</th>
+            <th>Staat van het product</th>
+        </tr>
+        @foreach (Models.TweedeHandsAdvertentie _adv in Model.tweedeHandsAdvResult)
+        {
+            <tr>
+                <td>@_adv.Product.ProductNaam</td>
+                <td>@_adv.Product.ProductType</td>
+                <td>@_adv.Product.Omschrijving</td>
+                <td>@_adv.StaatProduct</td>
+            </tr>
+            <tr>
+                <td>
+                    <a class="link-primary" asp-page="AdvertentiePagina" asp-route-advertentieSoort="Tweedehands" asp-route-advertentieId="@_adv.AdvertentieId">naar advertentie</a>
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
+@if (Model.refurbishedAdvResult != null)
+{
+    <h3>advertenties voor refurbished producten</h3>
+    <table class="table">
+        <tr>
+            <th>Productnaam</th>
+            <th>Producttype</th>
+            <th>Omschrijving</th>
+            <th>Staat van het product</th>
+        </tr>
+        @foreach (Models.RefurbishedAdvertentie _adv in Model.refurbishedAdvResult)
+        {
+            <tr>
+                <td>@_adv.Product.ProductNaam</td>
+                <td>@_adv.Product.ProductType</td>
+                <td>@_adv.Product.Omschrijving</td>
+                <td>@_adv.StaatProduct</td>
+            </tr>
+            <tr>
+                <td>
+                    <a class="link-primary" asp-page="AdvertentiePagina" asp-route-advertentieSoort="Refurbished" asp-route-advertentieId="@_adv.AdvertentieId">naar advertentie</a>
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+@if (Model.nieuwAdvResult != null)
+{
+    <h3>advertenties voor refurbished producten</h3>
+    <table class="table">
+        <tr>
+            <th>Productnaam</th>
+            <th>Producttype</th>
+            <th>Omschrijving</th>
+            <th>Aantal</th>
+        </tr>
+        @foreach (Models.NieuwProductAdvertentie _adv in Model.nieuwAdvResult)
+        {
+            <tr>
+                <td>@_adv.Product.ProductNaam</td>
+                <td>@_adv.Product.ProductType</td>
+                <td>@_adv.Product.Omschrijving</td>
+                <td>@_adv.Aantal</td>
+            </tr>
+            <tr>
+                <td>
+                    <a class="link-primary" asp-page="AdvertentiePagina" asp-route-advertentieSoort="Nieuw" asp-route-advertentieId="@_adv.AdvertentieId">naar advertentie</a>
+                </td>
+            </tr>
+        }
+    </table>
+}

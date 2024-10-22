@@ -24,7 +24,15 @@ namespace AutoOnderdelenSite.Data
         }
         public async Task<List<TweedeHandsAdvertentie>> GetTweedeHandsAdvertentiesAsync()
         {
-            return DataBase.TweedeHandsAdvertentieDb.ToList();
+            return DataBase.TweedeHandsAdvertentieDb.Include(s => s.Product).ToList();
+        }
+        public async Task<List<RefurbishedAdvertentie>> GetRefurbishedAdvertentiesAsync()
+        {
+            return DataBase.RefurbishedAdvertentieDb.Include(s => s.Product).ToList();
+        }
+        public async Task<List<NieuwProductAdvertentie>> GetNieuweProductAdvertentiesAsync()
+        {
+            return DataBase.NieuwProductAdvertentieDb.Include(s=>s.Product).ToList();
         }
         public async Task<List<Product>> GetAlleProductenAsync()
         {
@@ -129,7 +137,44 @@ namespace AutoOnderdelenSite.Data
             await DataBase.SaveChangesAsync();
         }
 
-        public async Task VoegNieuwAdvertentieTo(NieuwProductAdvertentie nieuwProductAdvertentie)
+        public async Task<NieuwProductAdvertentie> GetNieuwAdvertentie(int nieuwProdId)
+        {
+            NieuwProductAdvertentie result = new NieuwProductAdvertentie();
+            var adList = await GetNieuweProductAdvertentiesAsync();
+            foreach (var ad in adList) 
+            { 
+            if(ad.AdvertentieId == nieuwProdId) 
+                { result=ad; }
+            }
+            return result;
+        }
+
+        public async Task<RefurbishedAdvertentie> GetRefurbishedAdvertentie(int refurId)
+        {
+            RefurbishedAdvertentie result = new RefurbishedAdvertentie();
+            var adList = await GetRefurbishedAdvertentiesAsync();
+            foreach (var ad in adList)
+            {
+                if (ad.AdvertentieId == refurId)
+                { result = ad; }
+            }
+            return result;
+        }
+
+        public async Task<TweedeHandsAdvertentie> GetTweedeHandsAdvertentie(int tweedeHandsId)
+        {
+            TweedeHandsAdvertentie result = new TweedeHandsAdvertentie();
+            var adList = await GetTweedeHandsAdvertentiesAsync();
+            foreach (var ad in adList)
+            {
+                if (ad.AdvertentieId == tweedeHandsId)
+                { result = ad; }
+            }
+
+            return result;
+        }
+
+        public async Task VoegNieuwAdvertentieToe(NieuwProductAdvertentie nieuwProductAdvertentie)
         {
             DataBase.Add(nieuwProductAdvertentie);
             await DataBase.SaveChangesAsync();
@@ -146,6 +191,25 @@ namespace AutoOnderdelenSite.Data
             DataBase.Add(tweedeHandsAdvertentie);
             await DataBase.SaveChangesAsync();
         }
+        public async Task VerwijderNieuwAdvertentie(int advId)
+        {
+            NieuwProductAdvertentie nieuwProductAdvertentie= await GetNieuwAdvertentie(advId);
+            DataBase.NieuwProductAdvertentieDb.Remove(nieuwProductAdvertentie);
+            await DataBase.SaveChangesAsync();
+        }
 
+        public async Task VerwijderRefurbishedAdvertentie(int advId)
+        {
+            RefurbishedAdvertentie refurbishedAdvertentie = await GetRefurbishedAdvertentie(advId);
+            DataBase.RefurbishedAdvertentieDb.Remove(refurbishedAdvertentie);
+            await DataBase.SaveChangesAsync();
+        }
+
+        public async Task VerwijderTweedeHandsAdvertentie(int advId)
+        {
+            TweedeHandsAdvertentie tweedeHandsAdvertentie= await GetTweedeHandsAdvertentie(advId);
+            DataBase.TweedeHandsAdvertentieDb.Remove(tweedeHandsAdvertentie);
+            await DataBase.SaveChangesAsync();
+        }
     }
 }

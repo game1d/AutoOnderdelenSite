@@ -45,6 +45,17 @@ namespace AutoOnderdelenSite.Pages
 
             return RedirectToPage();
         }
+        public async Task<ActionResult> OnPostDeleteRefAd(int Adid)
+        {
+            autoStoreDatabase.VerwijderRefurbishedAdvertentie(Adid);
 
+            return RedirectToPage();
+        }
+        public async Task<ActionResult> OnPostDeletenieuwAd(int Adid)
+        {
+            autoStoreDatabase.VerwijderNieuwAdvertentie(Adid);
+
+            return RedirectToPage();
+        }
     }
 }
