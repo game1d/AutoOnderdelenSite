@@ -109,7 +109,7 @@ namespace AutoOnderdelenSite.Data
             Particulier _particulier = await VindParticulierOpEmail(emailAdres);
             if (_particulier != null)
             {
-                if (_particulier.Wachtwoord == wachtWoord)
+                if (_particulier.Wachtwoord == HasherMaker.ToSHA256(wachtWoord))
                 {
                     _result = true;
                 }
@@ -123,7 +123,7 @@ namespace AutoOnderdelenSite.Data
             Bedrijf _bedrijf = await VindBedrijfOpEmail(emailAdres);//Ik zou liever direct zoeken op email maar hij wil op een int zoeken.
             if (_bedrijf != null)
             {
-                if (_bedrijf.Wachtwoord == wachtWoord)
+                if (_bedrijf.Wachtwoord == HasherMaker.ToSHA256(wachtWoord))
                 {
                     _result = true;
                 }
@@ -209,6 +209,23 @@ namespace AutoOnderdelenSite.Data
         {
             TweedeHandsAdvertentie tweedeHandsAdvertentie= await GetTweedeHandsAdvertentie(advId);
             DataBase.TweedeHandsAdvertentieDb.Remove(tweedeHandsAdvertentie);
+            await DataBase.SaveChangesAsync();
+        }
+
+        public async Task MaakBieding(Bieding _bieding)
+        {
+            DataBase.Add(_bieding);
+            await DataBase.SaveChangesAsync();
+        }
+
+        public async Task MaakRefurKoop(KoopRefurbished _refurkoop)
+        {
+            DataBase.RefurKoopDb.Add(_refurkoop);
+            await DataBase.SaveChangesAsync();
+        }
+        public async Task MaakNieuwKoop(NieuwKoop _nieuwKoop)
+        {
+            DataBase.NieuwKoopDb.Add(_nieuwKoop);
             await DataBase.SaveChangesAsync();
         }
     }

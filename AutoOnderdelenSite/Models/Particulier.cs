@@ -3,7 +3,6 @@
     public class Particulier : User
     {
         
-        public override int UserId { get; set; }
         public string Adres { get; set; }
         public string VoorNaam {  get; set; }
         public string AchterNaam {  get; set; }

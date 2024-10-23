@@ -2,7 +2,6 @@
 {
     public class Bedrijf : User
     {
-        public override int UserId { get; set; }
         public string Adres { get; set; }
         public string TelefoonNummer { get; set; }
         public string BetaalGegevens { get; set; }

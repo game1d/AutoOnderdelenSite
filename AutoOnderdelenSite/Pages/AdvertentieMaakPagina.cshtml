@@ -8,13 +8,14 @@
 {
     <form method="post">
         <label for="ProductId">Product:</label>
-        <select asp-for="ProductIdInput" name="ProductId" id="ProductId">
+        <select asp-for="ProductIdInput" name="ProductIdInput" id="ProductIdInput">
             @foreach(Models.Product _product in Model.products)
             {
                 <option value="@_product.ProductId">@_product.ProductNaam</option>
             }
         </select>
-        <label for="Aantal">aantal:</label><input asp-for="AantalInput" name="Aantal" id="Aantal" type="number" />
+        <label for="AantalInput">aantal:</label><input asp-for="AantalInput" name="AantalInput" id="AantalInput" type="number" />
+        <label for="PrijsInput">prijs:</label><input asp-for="PrijsInput" name="PrijsInput" id="PrijsInput" type="number" />
         <button asp-page-handler="NieuwAdvertentieMaken" type="submit">Maak Advertentie</button>
     </form>
     <a asp-page="/BedrijfUserPagina" class="btn btn-primary">annuleer</a>
@@ -31,6 +32,7 @@
             }
         </select>
         <label for="StaatProductInput">Staat van het product:</label><input asp-for="StaatProductInput" name="StaatProductInput" id="StaatProductInput" type="text" />
+        <label for="PrijsInput">prijs:</label><input asp-for="PrijsInput" name="PrijsInput" id="PrijsInput" type="number" />
         <button asp-page-handler="RefurbishedAdvertentieMaken" type="submit">Maak Advertentie</button>
     </form>
     <a asp-route="/BedrijfUserPagina" class="btn btn-primary">annuleer</a>
@@ -47,6 +49,7 @@
             }
         </select>
         <label for="StaatProductInput">Staat van het product:</label><input asp-for="StaatProductInput" name="StaatProductInput" id="StaatProductInput" type="text" />
+        <label for="PrijsInput">prijs:</label><input asp-for="PrijsInput" name="PrijsInput" id="PrijsInput" type="number" />
         <button asp-page-handler="TweedeHandsAdvertentieMaken" type="submit">Maak Advertentie</button>
     </form>
     <a asp-route="/ParticulierUserPagina" class="btn btn-primary">annuleer</a>

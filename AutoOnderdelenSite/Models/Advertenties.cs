@@ -10,7 +10,7 @@ namespace AutoOnderdelenSite.Models
         public int UserId { get; set; }
         public int ProductId {  get; set; }
         public Product Product { get; set; }
-
+        public double Prijs { get; set; }
 
     }
 }

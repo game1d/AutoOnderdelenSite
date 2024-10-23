@@ -6,54 +6,68 @@
 
 @if (Model.AdvertentieSoort == "Tweedehands")
 {
-    <table>
+    <table class="table">
         <tr>
             <th>Productnaam</th>
             <th>Producttype</th>
             <th>Omschrijving</th>
             <th>Staat van het product</th>
+            <th>Prijs</th>
         </tr>
         <tr>
             <td>@Model.TweedAdv.Product.ProductNaam</td>
             <td>@Model.TweedAdv.Product.ProductType</td>
             <td>@Model.TweedAdv.Product.Omschrijving</td>
             <td>@Model.TweedAdv.StaatProduct</td>
+            <td>@Model.TweedAdv.Prijs</td>
+        </tr>
+
+        <tr>
+            <form method="post">
+                @*Meestal ga je naar een apart scherm voor aankopen, maar ik wil even ruimte besparen.*@
+                <input asp-for="AdvertentieId" id="AdvertentieId" name="AdvertentieId" type="hidden" value="@Model.TweedAdv.AdvertentieId" />
+            <td><label asp-for="KoperNaamInput">Naam:</label><input type="text" asp-for="KoperNaamInput" name="KoperNaamInput" id="KoperNaamInput" /></td>
+            <td><label asp-for="KoperAdresInput">Adres:</label><input type="text" asp-for="KoperAdresInput" name="KoperAdresInput" id="KoperAdresInput" /></td>
+            <td><label asp-for="BetaalGegevens">Betaalgegevens:</label><input type="text" asp-for="BetaalGegevens" name="BetaalGegevens" id="BetaalGegevens" /></td>
+            <td><label asp-for="Bedrag">Bedrag:</label><input type="number" asp-for="Bedrag" name="Bedrag" id="Bedrag" /></td>
+            <td>
+                <button asp-page-handler="Bied" class="btn btn-primary">Koop</button>
+            </td>
+            </form>
         </tr>
     </table>
-    <tr>
-        <td>
-            <form method="post">
-                <button asp-page-handler="Koop" class="btn btn-primary">Koop</button>
-            </form>
-        </td>
-    </tr>
 }
 
 @if (Model.AdvertentieSoort == "Refurbished")
 {
-    {
-        <table>
-            <tr>
-                <th>Productnaam</th>
-                <th>Producttype</th>
-                <th>Omschrijving</th>
-                <th>Staat van het product</th>
-            </tr>
-            <tr>
-                <td>@Model.RefurAdv.Product.ProductNaam</td>
-                <td>@Model.RefurAdv.Product.ProductType</td>
-                <td>@Model.RefurAdv.Product.Omschrijving</td>
-                <td>@Model.RefurAdv.StaatProduct</td>
-            </tr>
-        </table>
+    <table class="table">
         <tr>
-            <td>
-                <form method="post">
-                    <button asp-page-handler="Koop" class="btn btn-primary">Koop</button>
-                </form>
-            </td>
+            <th>Productnaam</th>
+            <th>Producttype</th>
+            <th>Omschrijving</th>
+            <th>Staat van het product</th>
+            <th>Prijs</th>
         </tr>
-    }
+        <tr>
+            <td>@Model.RefurAdv.Product.ProductNaam</td>
+            <td>@Model.RefurAdv.Product.ProductType</td>
+            <td>@Model.RefurAdv.Product.Omschrijving</td>
+            <td>@Model.RefurAdv.StaatProduct</td>
+            <td>@Model.RefurAdv.Prijs</td>
+        </tr>
+
+        <tr>
+
+            <form method="post">
+                <input asp-for="AdvertentieId" id="AdvertentieId" name="AdvertentieId" type="hidden" value="@Model.RefurAdv.AdvertentieId" />
+            <td><label asp-for="KoperNaamInput">Naam:</label><input type="text" asp-for="KoperNaamInput" name="KoperNaamInput" id="KoperNaamInput" /></td>
+            <td><label asp-for="KoperAdresInput">Adres:</label><input type="text" asp-for="KoperAdresInput" name="KoperAdresInput" id="KoperAdresInput" /></td>
+            <td><label asp-for="BetaalGegevens">Betaalgegevens:</label><input type="text" asp-for="BetaalGegevens" name="BetaalGegevens" id="BetaalGegevens" /></td>
+            <input asp-for="Bedrag" id="Bedrag" name="Bedrag" type="hidden" value="@Model.RefurAdv.Prijs" />
+            <td><button asp-page-handler="KoopRef" class="btn btn-primary">Koop</button></td>
+            </form>
+        </tr>
+    </table>
 }
 
 @if (Model.AdvertentieSoort == "Nieuw")
@@ -64,21 +78,27 @@
             <th>Producttype</th>
             <th>Omschrijving</th>
             <th>Aantal</th>
+            <th>Prijs</th>
         </tr>
-
         <tr>
             <td>@Model.NieuwAdv.Product.ProductNaam</td>
             <td>@Model.NieuwAdv.Product.ProductType</td>
             <td>@Model.NieuwAdv.Product.Omschrijving</td>
             <td>@Model.NieuwAdv.Aantal</td>
+            <td>@Model.NieuwAdv.Prijs</td>
         </tr>
         <tr>
-            <td>
-                <form method="post">
-                    <button asp-page-handler="Koop" class="btn btn-primary">Koop</button>
-                </form>
-            </td>
-        </tr>
 
+            <form method="post">
+
+                <input asp-for="AdvertentieId" id="AdvertentieId" name="AdvertentieId" type="hidden" value="@Model.NieuwAdv.AdvertentieId" />
+            <td><label asp-for="KoperNaamInput">Naam:</label><input type="text" asp-for="KoperNaamInput" name="KoperNaamInput" id="KoperNaamInput" /></td>
+            <td><label asp-for="KoperAdresInput">Adres:</label><input type="text" asp-for="KoperAdresInput" name="KoperAdresInput" id="KoperAdresInput" /></td>
+            <td><label asp-for="BetaalGegevens">Betaalgegevens:</label><input type="text" asp-for="BetaalGegevens" name="BetaalGegevens" id="BetaalGegevens" /></td>
+            <td><label asp-for="Aantal">Aantal:</label><input type="number" asp-for="Aantal" name="Aantal" id="Aantal" /></td>
+            <input asp-for="Bedrag" id="Bedrag" name="Bedrag" type="hidden" value="@Model.NieuwAdv.Prijs" />
+            <td> <button asp-page-handler="KoopNieuw" class="btn btn-primary">Koop</button></td>
+            </form>
+        </tr>
     </table>
 }

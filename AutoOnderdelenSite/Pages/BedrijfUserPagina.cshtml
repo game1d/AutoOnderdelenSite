@@ -20,6 +20,7 @@
         <th>Producttype</th>
         <th>Omschrijving</th>
         <th>Aantal</th>
+        <th>Prijs</th>
     </tr>
     @foreach (Models.NieuwProductAdvertentie _nieuw in Model.Bedrijf.NieuwProductAdvertenties)
     {
@@ -28,6 +29,7 @@
             <td>@_nieuw.Product.ProductType</td>
             <td>@_nieuw.Product.Omschrijving</td>
             <td>@_nieuw.Aantal</td>
+            <td>@_nieuw.Prijs</td>
         </tr>
         <tr>
             <td>
@@ -47,6 +49,7 @@
         <th>Producttype</th>
         <th>Omschrijving</th>
         <th>Staat van het product</th>
+        <th>Prijs</th>
     </tr>
     @foreach (Models.RefurbishedAdvertentie _ref in Model.Bedrijf.RefurbishedAvertenties)
     {
@@ -55,6 +58,7 @@
             <td>@_ref.Product.ProductType</td>
             <td>@_ref.Product.Omschrijving</td>
             <td>@_ref.StaatProduct</td>
+            <td>@_ref.Prijs</td>
         </tr>
         <tr>
             <td>

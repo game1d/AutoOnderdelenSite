@@ -14,6 +14,7 @@
         <th>Producttype</th>
         <th>Omschrijving</th>
         <th>Staat van het product</th>
+        <th>Prijs</th>
     </tr>
     @foreach (Models.TweedeHandsAdvertentie _adv in Model.Particulier.TweedeHandsAdvertenties)
     {
@@ -22,6 +23,7 @@
             <td>@_adv.Product.ProductType</td>
             <td>@_adv.Product.Omschrijving</td>
             <td>@_adv.StaatProduct</td>
+            <td>@_adv.Prijs</td>
         </tr>
         <tr>
             <td>

@@ -44,7 +44,7 @@ namespace AutoOnderdelenSite.Pages
             try
             {
                 Part.UserName = UserNameInput;
-                Part.Wachtwoord = WachtwoordInput;
+                Part.Wachtwoord = HasherMaker.ToSHA256(WachtwoordInput);
                 Part.Email = EmailInput;
                 Part.Adres = AdresInput;
                 Part.VoorNaam = VoorNaamInput;

@@ -25,7 +25,8 @@ namespace AutoOnderdelenSite.Pages
         public int AantalInput { get; set; }
         [BindProperty]
         public string StaatProductInput { get; set; }
-
+        [BindProperty]
+        public double PrijsInput {  get; set; }
 
 
         public async void OnGet(string SoortAdvertentie)
@@ -40,6 +41,7 @@ namespace AutoOnderdelenSite.Pages
             NieuwProdAd.UserId = Convert.ToInt32(Request.Cookies["UserId"]);
             NieuwProdAd.ProductId = ProductIdInput;
             NieuwProdAd.Aantal = AantalInput;
+            NieuwProdAd.Prijs = PrijsInput;
             await autoStoreDatabase.VoegNieuwAdvertentieToe(NieuwProdAd);
             return RedirectToPage("BedrijfUserPagina");
         }
@@ -49,6 +51,7 @@ namespace AutoOnderdelenSite.Pages
             refurbishedAdvertentie.UserId = Convert.ToInt32(Request.Cookies["UserId"]);
             refurbishedAdvertentie.ProductId = ProductIdInput;
             refurbishedAdvertentie.StaatProduct = StaatProductInput;
+            refurbishedAdvertentie.Prijs = PrijsInput;
             await autoStoreDatabase.VoegRefurbishedAdvertentieToe(refurbishedAdvertentie);
             return RedirectToPage("BedrijfUserPagina");
         }
@@ -58,6 +61,7 @@ namespace AutoOnderdelenSite.Pages
             TweedHands.UserId=Convert.ToInt32(Request.Cookies["UserId"]);
             TweedHands.ProductId = ProductIdInput;
             TweedHands.StaatProduct= StaatProductInput;
+            TweedHands.Prijs = PrijsInput;
             await autoStoreDatabase.VoegTweedeHandsAdvertentieToe(TweedHands);
             return RedirectToPage("ParticulierUserPagina");
         }

@@ -40,7 +40,7 @@ namespace AutoOnderdelenSite.Pages
             try
             {
                 Bedrijf.UserName = UserNameInput;
-                Bedrijf.Wachtwoord = WachtwoordInput;
+                Bedrijf.Wachtwoord = HasherMaker.ToSHA256(WachtwoordInput);
                 Bedrijf.Email = EmailInput;
                 Bedrijf.Adres = AdresInput;
                 Bedrijf.TelefoonNummer = TelefoonNummerInput;
