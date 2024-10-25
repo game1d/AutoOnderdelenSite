@@ -19,6 +19,9 @@ namespace AutoOnderdelenSite.Data
         public DbSet<KoopRefurbished> RefurKoopDb { get; set; }
         public DbSet<NieuwKoop> NieuwKoopDb { get; set; }
 
+        public DbSet<WikiArtikelBedrijf> WikiArtikelBedrijfsDb { get; set; }
+        public DbSet<WikiArtikelParticulier>WikiArtikelParticuliersDb { get; set; }
+        public DbSet<ProductWikiVerzameling>ProductWikiVerzameling { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

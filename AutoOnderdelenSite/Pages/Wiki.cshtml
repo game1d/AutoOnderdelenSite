@@ -1,0 +1,57 @@
+﻿@page
+@model AutoOnderdelenSite.Pages.WikiModel
+@{
+    ViewData["Title"] = "wiki Artikelen";
+
+}
+<h3>Wiki Artikelen - Bedrijf</h3>
+
+<table class=" table">
+    <thead>
+        <tr>
+            <th>Bedrijf</th>
+            <th>Product</th>
+            <th>Omschrijving</th>
+            <th>Foto</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var artikel in Model.WikiArtikelBedrijfs)
+        {
+            <tr>
+                <td>@artikel.AuteurBedrijf</td>
+                <td>@artikel.Product</td>
+                <td>@artikel.Omschrijving</td>
+                <td>@artikel.Foto</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<h3>Wiki Artikelen - Particulier</h3>
+
+<table class=" table">
+    <thead>
+        <tr>
+            <th>Particulier</th>
+            <th>Product</th>
+            <th>Omschrijving</th>
+            <th>Foto</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var artikel in Model.WikiArtikelParticuliers)
+        {
+            <tr>
+                <td>@artikel.AuteurParticulier</td>
+                <td>@artikel.Product</td>
+                <td>@artikel.Omschrijving</td>
+                <td>@artikel.Foto</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+
