@@ -22,6 +22,10 @@ namespace AutoOnderdelenSite.Data
         public DbSet<BedrijfReview> BedrijfReviewDb { get; set; }
         public DbSet<Beheerder> BeheerderDb { get; set; }
 
+        public DbSet<WikiArtikelBedrijf> WikiArtikelBedrijfsDb { get; set; }
+        public DbSet<WikiArtikelParticulier>WikiArtikelParticuliersDb { get; set; }
+        public DbSet<ProductWikiVerzameling>ProductWikiVerzameling { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

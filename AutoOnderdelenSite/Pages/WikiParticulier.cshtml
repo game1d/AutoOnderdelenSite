@@ -1,0 +1,28 @@
+﻿@page
+@model AutoOnderdelenSite.Pages.WikiParticulierModel
+@{
+    ViewData["Title"] = "ParticuliersArtikel";
+}
+
+<h3>Nieuw ParticuliersArtikel Toevoegen</h3>
+
+<form method="post">
+    <div class="form-group">
+        <label for="AuteurParticulier">Bedrijf</label>
+        <input type="text" asp-asp-for="wikiArtikel.AuteurParticulier" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Product">Product</label>
+        <input type="text" asp-asp-for="wikiArtikel.Product" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Omschrijving">Omschrijving</label>
+        <input type="text" asp-asp-for="wikiArtikel.Omschrijving" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Foto">Foto</label>
+        <input type="text" asp-asp-for="wikiArtikel.Foto" class="form-control" />
+    </div>
+    <hr />
+    <button type="submit" class="btn btn-primary">Opslaan</button>
+</form>

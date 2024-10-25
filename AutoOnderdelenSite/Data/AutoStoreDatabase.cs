@@ -324,5 +324,42 @@ namespace AutoOnderdelenSite.Data
             DataBase.NieuwProductAdvertentieDb.Update(_adv);
             await DataBase.SaveChangesAsync();
         }
+        public async Task<List<WikiArtikelBedrijf>>GetWikiArtikelBedrijfsAsync()
+        {
+            return DataBase.WikiArtikelBedrijfsDb.Include(p => p.Product).ToList();
+        }
+        public async Task<List<WikiArtikelParticulier>> GetArtikelParticuliersAsync()
+        {
+            return DataBase.WikiArtikelParticuliersDb.Include(p => p.Product).ToList();
+        }
+        public async Task<List<ProductWikiVerzameling>>ProductWikiVerzamelingsAsync()
+        {
+            return DataBase.ProductWikiVerzameling.Include(p => p.Product).ToList();
+        }
+
+        public async Task ToevoegenWikiArtikelBedrijf(WikiArtikelBedrijf wikiArtikel)
+        {
+            DataBase.Add(wikiArtikel);
+            await DataBase.SaveChangesAsync();
+        }
+        public async Task ToevoegenWikiArtikelParticulier(WikiArtikelParticulier wikiArtikel)
+        {
+            DataBase.Add(wikiArtikel);
+            await DataBase.SaveChangesAsync();
+        }
+       /* public async Task VerwijderWikiArtikelBedrijf(int WikiId)
+        {
+            WikiArtikelBedrijf wikiArtikelBedrijf = await GetWikiArtikelBedrijfsAsync(WikiId);
+            DataBase.WikiArtikelBedrijfsDb.Remove(wikiArtikelBedrijf);
+            await DataBase.SaveChangesAsync();
+        }
+        public async Task VerwijderWikiArtikelParticulier(int WikiId)
+        {
+            WikiArtikelParticulier wikiArtikelParticulier = await GetWikiArtikelParticulier(WikiId);
+            DataBase.WikiArtikelParticuliersDb.Remove(wikiArtikelParticulier);
+            await DataBase.SaveChangesAsync();
+        }*/
+        
+        
     }
 }
