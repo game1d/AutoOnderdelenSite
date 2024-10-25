@@ -30,6 +30,10 @@ namespace AutoOnderdelenSite.Pages
         {
             if (EmailInput != null && WachtwoordInput != null)
             {
+                if (await autoStoreDatabase.CheckParticulierBan(EmailInput))
+                {
+                    Message = "Deze user is geband."; return Page();
+                }
                 bool methodAnswer = await autoStoreDatabase.CheckParticulierWachtwoord(EmailInput, WachtwoordInput);
                 if (methodAnswer)
                 {

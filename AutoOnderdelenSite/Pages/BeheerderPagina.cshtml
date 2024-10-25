@@ -1,0 +1,131 @@
+﻿@page
+@model AutoOnderdelenSite.Pages.BeheerderPaginaModel
+@{
+}
+<a class="btn btn-primary" asp-page="MainPage"> Homepage </a>
+
+<form method="post"><button class="btn btn-primary"> Logout </button></form>
+
+<h2>Dit is de pagina van @Model.Beheerder.UserName</h2>
+
+
+<br />
+
+@if(Model.UserRol=="Beheerder")
+{
+<h3>Lijst particuliere gebruikers</h3>
+<table class="table">
+    <tr>
+        <th>Voornaam</th>
+        <th>Achternaam</th>
+        <th>Usernaam</th>
+        <th>Telefoonnumer</th>
+        <th>Email</th>
+        <th>Banstatus</th>
+    </tr>
+    @foreach (Models.Particulier _particulier in Model.OngebandeParticulieren)
+    {
+        <tr>
+            <td>@_particulier.VoorNaam</td>
+            <td>@_particulier.AchterNaam</td>
+            <td>@_particulier.UserName</td>
+            <td>@_particulier.TelefoonNummer</td>
+            <td>@_particulier.Email</td>
+            <td>@_particulier.BanStatus</td>
+        </tr>
+        <tr>
+            <td>
+                <form method="post">
+                    <button asp-page-handler="BanParticulier" asp-route-PartId="@_particulier.UserId" class="btn btn-danger">Ban</button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
+
+<h3>Lijst gebande particuliere gebruikers</h3>
+<table class="table">
+    <tr>
+        <th>Voornaam</th>
+        <th>Achternaam</th>
+        <th>Usernaam</th>
+        <th>Telefoonnumer</th>
+        <th>Email</th>
+        <th>Banstatus</th>
+    </tr>
+    @foreach (Models.Particulier _particulier in Model.GebandeParticulieren)
+    {
+        <tr>
+            <td>@_particulier.VoorNaam</td>
+            <td>@_particulier.AchterNaam</td>
+            <td>@_particulier.UserName</td>
+            <td>@_particulier.TelefoonNummer</td>
+            <td>@_particulier.Email</td>
+            <td>@_particulier.BanStatus</td>
+        </tr>
+        <tr>
+            <td>
+                <form method="post">
+                    <button asp-page-handler="UnBanParticulier" asp-route-PartId="@_particulier.UserId" class="btn btn-danger">Unban</button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
+
+<h3>Lijst bedrijven</h3>
+<table class="table">
+    <tr>
+
+        <th>Usernaam</th>
+        <th>Adres</th>
+        <th>Telefoonnumer</th>
+        <th>Email</th>
+        <th>Banstatus</th>
+    </tr>
+    @foreach (Models.Bedrijf _Bedrijf in Model.OngebandeBedrijven)
+    {
+        <tr>
+            <td>@_Bedrijf.UserName</td>
+            <td>@_Bedrijf.Adres</td>
+            <td>@_Bedrijf.TelefoonNummer</td>
+            <td>@_Bedrijf.Email</td>
+            <td>@_Bedrijf.BanStatus</td>
+        </tr>
+        <tr>
+            <td>
+                <form method="post">
+                    <button asp-page-handler="BanBedrijf" asp-route-PartId="@_Bedrijf.UserId" class="btn btn-danger">Ban</button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
+
+<h3>Lijst gebande bedrijven</h3>
+<table class="table">
+    <tr>
+        <th>Usernaam</th>
+        <th>Adres</th>
+        <th>Telefoonnumer</th>
+        <th>Email</th>
+        <th>Banstatus</th>
+    </tr>
+    @foreach (Models.Bedrijf _Bedrijf in Model.GebandeBedrijven)
+    {
+        <tr>
+            <td>@_Bedrijf.UserName</td>
+            <td>@_Bedrijf.Adres</td>
+            <td>@_Bedrijf.TelefoonNummer</td>
+            <td>@_Bedrijf.Email</td>
+            <td>@_Bedrijf.BanStatus</td>
+        </tr>
+        <tr>
+            <td>
+                <form method="post">
+                    <button asp-page-handler="UnBanBedrijf" asp-route-PartId="@_Bedrijf.UserId" class="btn btn-danger">Unban</button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>}

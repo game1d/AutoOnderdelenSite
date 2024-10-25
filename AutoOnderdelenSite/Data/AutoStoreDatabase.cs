@@ -17,6 +17,10 @@ namespace AutoOnderdelenSite.Data
         {
             return DataBase.ParticulierDb.Include(s => s.TweedeHandsAdvertenties).ThenInclude(r=>r.Product).ToList();
         }
+        public async Task<List<Beheerder>> GetBeheerdersAsync()
+        {
+            return DataBase.BeheerderDb.ToList();
+        }
         public async Task<List<Bedrijf>> GetBedrijvenAsync()
         {
             return DataBase.BedrijfDb.Include(s => s.RefurbishedAvertenties).ThenInclude(q=>q.Product)
@@ -91,7 +95,6 @@ namespace AutoOnderdelenSite.Data
         public async Task<Particulier> VindParticulierOpUserId(int UserId)
         {
             Particulier particulier = new Particulier();
-            List<Particulier> particulieren= await GetParticulierenAsync();
             List<Particulier> particulierenlijst = await GetParticulierenAsync();
 
             foreach (Particulier _particulier in particulierenlijst)
@@ -101,6 +104,35 @@ namespace AutoOnderdelenSite.Data
             }
             if (particulier != null) { return particulier; }
             else { throw new Exception("Particulier niet gevonden"); }
+        }
+
+        public async Task<Beheerder> VindBeheerderOpEmail(string emailAdres)
+        {
+            Beheerder beheerder = new Beheerder();
+            List<Beheerder> particulierenlijst = await GetBeheerdersAsync();
+
+            foreach (Beheerder _beheerder in particulierenlijst)
+            {
+                if (_beheerder.Email == emailAdres)
+                { beheerder = _beheerder; }
+            }
+            if (beheerder != null) { return beheerder; }
+            else { throw new Exception("Beheerder niet gevonden"); }
+        }
+
+        public async Task<Beheerder> VindBeheerderOpUserId(int UserId)
+        {
+            Beheerder beheerder = new Beheerder();
+
+            List<Beheerder> Beheerderlijst = await GetBeheerdersAsync();
+
+            foreach (Beheerder _beheerder in Beheerderlijst)
+            {
+                if (_beheerder.UserId == UserId)
+                { beheerder = _beheerder; }
+            }
+            if (beheerder != null) { return beheerder; }
+            else { throw new Exception("Beheerder niet gevonden"); }
         }
 
         public async Task<bool> CheckParticulierWachtwoord(string emailAdres, string wachtWoord)
@@ -117,10 +149,21 @@ namespace AutoOnderdelenSite.Data
             return _result;
         }
 
+        public async Task<bool> CheckParticulierBan(string emailAdres)
+        {
+            bool _result = false;
+            Particulier _part = await VindParticulierOpEmail(emailAdres);//Ik zou liever direct zoeken op email maar hij wil op een int zoeken.
+            if (_part.BanStatus == "ban")
+            {
+                _result = true;
+            }
+            return _result;
+        }
+
         public async Task<bool> CheckBedrijfWachtwoord(string emailAdres, string wachtWoord)
         {
             bool _result = false;
-            Bedrijf _bedrijf = await VindBedrijfOpEmail(emailAdres);//Ik zou liever direct zoeken op email maar hij wil op een int zoeken.
+            Bedrijf _bedrijf = await VindBedrijfOpEmail(emailAdres);
             if (_bedrijf != null)
             {
                 if (_bedrijf.Wachtwoord == HasherMaker.ToSHA256(wachtWoord))
@@ -130,6 +173,32 @@ namespace AutoOnderdelenSite.Data
             }
             return _result;
         }
+        public async Task<bool> CheckBedrijfBan(string emailAdres)
+        {
+            bool _result = false;
+            Bedrijf _bedrijf = await VindBedrijfOpEmail(emailAdres);
+            if (_bedrijf.BanStatus == "ban")
+            {
+                    _result = true;
+            }
+            return _result;
+        }
+
+
+        public async Task<bool> CheckBeheerderWachtwoord(string emailAdres, string wachtWoord)
+        {
+            bool _result = false;
+            Beheerder _beheerder = await VindBeheerderOpEmail(emailAdres);
+            if (_beheerder != null)
+            {
+                if (_beheerder.Wachtwoord == HasherMaker.ToSHA256(wachtWoord))
+                {
+                    _result = true;
+                }
+            }
+            return _result;
+        }
+
 
         public async Task VoegProductToe(Product _nieuwproduct)
         {
@@ -226,6 +295,33 @@ namespace AutoOnderdelenSite.Data
         public async Task MaakNieuwKoop(NieuwKoop _nieuwKoop)
         {
             DataBase.NieuwKoopDb.Add(_nieuwKoop);
+            await DataBase.SaveChangesAsync();
+        }
+
+        public async Task UpdateParticulier(Particulier _particulier)
+        {
+            DataBase.ParticulierDb.Update(_particulier);
+            await DataBase.SaveChangesAsync();
+        }
+
+        public async Task UpdateBedrijf(Bedrijf _bedrijf)
+        {
+            DataBase.BedrijfDb.Update(_bedrijf);
+            await DataBase.SaveChangesAsync();
+        }
+        public async Task UpdateTweedeHandsAdv(TweedeHandsAdvertentie _adv)
+        {
+            DataBase.TweedeHandsAdvertentieDb.Update(_adv);
+            await DataBase.SaveChangesAsync();
+        }
+        public async Task UpdateRefurAdv(RefurbishedAdvertentie _adv)
+        {
+            DataBase.RefurbishedAdvertentieDb.Update(_adv);
+            await DataBase.SaveChangesAsync();
+        }
+        public async Task UpdateNieuwAdv(NieuwProductAdvertentie _adv)
+        {
+            DataBase.NieuwProductAdvertentieDb.Update(_adv);
             await DataBase.SaveChangesAsync();
         }
     }

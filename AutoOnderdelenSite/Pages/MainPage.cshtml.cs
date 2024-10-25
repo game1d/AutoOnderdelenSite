@@ -21,20 +21,17 @@ namespace AutoOnderdelenSite.Pages
         }
 
         public IList<TweedeHandsAdvertentie> tweedeHandsAdvertenties { get; set; }
-        [BindProperty]
-        public TweedeHandsAdvertentie tweedeHandsAdvertentie { get; set; }
+
         [BindProperty]
         public IList<TweedeHandsAdvertentie> tweedeHandsAdvResult { get; set; }
 
         public IList<RefurbishedAdvertentie> refurbishedAdvertenties { get; set; }
-        [BindProperty]
-        public RefurbishedAdvertentie refurbishedAdvertentie { get; set; }
+
         [BindProperty]
         public IList<RefurbishedAdvertentie> refurbishedAdvResult { get; set; }
 
         public IList<NieuwProductAdvertentie> nieuwAdvertenties { get; set; }
-        [BindProperty]
-        public NieuwProductAdvertentie nieuwAdvertentie { get; set; }
+
         [BindProperty]
         public IList<NieuwProductAdvertentie> nieuwAdvResult { get; set; }
 

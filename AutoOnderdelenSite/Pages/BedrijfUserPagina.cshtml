@@ -3,82 +3,91 @@
 @{
 }
 
-<h2>Dit is de pagina van @Model.Bedrijf.UserName</h2>
+<a class="btn btn-primary" asp-page="MainPage"> Homepage </a>
 
 <form method="post"><button class="btn btn-primary"> Logout </button></form>
 
+<h2>Dit is de pagina van @Model.Bedrijf.UserName</h2>
+
+
+<br />
 
 <a asp-page="AdvertentieMaakPagina" asp-route-SoortAdvertentie="nieuw" class="btn btn-primary">maak advertentie voor nieuw</a>
 
 <a asp-page="AdvertentieMaakPagina" asp-route-SoortAdvertentie="refurbished" class="btn btn-primary">maak advertentie voor refurbished</a>
 
-<h3>advertenties voor nieuwe producten</h3>
 
-<table class="table">
-    <tr>
-        <th>Productnaam</th>
-        <th>Producttype</th>
-        <th>Omschrijving</th>
-        <th>Aantal</th>
-        <th>Prijs</th>
-    </tr>
-    @foreach (Models.NieuwProductAdvertentie _nieuw in Model.Bedrijf.NieuwProductAdvertenties)
-    {
+
+@if (Model.Bedrijf.NieuwProductAdvertenties.Count != 0)
+{
+    <h3>advertenties voor nieuwe producten</h3>
+    <table class="table">
         <tr>
-            <td>@_nieuw.Product.ProductNaam</td>
-            <td>@_nieuw.Product.ProductType</td>
-            <td>@_nieuw.Product.Omschrijving</td>
-            <td>@_nieuw.Aantal</td>
-            <td>@_nieuw.Prijs</td>
+            <th>Productnaam</th>
+            <th>Producttype</th>
+            <th>Omschrijving</th>
+            <th>Aantal</th>
+            <th>Prijs</th>
         </tr>
+        @foreach (Models.NieuwProductAdvertentie _nieuw in Model.Bedrijf.NieuwProductAdvertenties)
+        {
+            <tr>
+                <td>@_nieuw.Product.ProductNaam</td>
+                <td>@_nieuw.Product.ProductType</td>
+                <td>@_nieuw.Product.Omschrijving</td>
+                <td>@_nieuw.Aantal</td>
+                <td>@_nieuw.Prijs</td>
+            </tr>
+            <tr>
+                <td>
+                    <form method="post">
+                        <button asp-page-handler="DeletenieuwAd" asp-route-Adid="@_nieuw.AdvertentieId" class="btn btn-danger">Verwijder</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+@if (Model.Bedrijf.RefurbishedAvertenties.Count != 0)
+{
+    <h3>Advertenties voor refurbished producten</h3>
+    <table class="table">
         <tr>
-            <td>
-                <form method="post">
-                    <button asp-page-handler="DeletenieuwAd" asp-route-Adid="@_nieuw.AdvertentieId" class="btn btn-danger">Verwijder</button>
-                </form>
-            </td>
+            <th>Productnaam</th>
+            <th>Producttype</th>
+            <th>Omschrijving</th>
+            <th>Staat van het product</th>
+            <th>Prijs</th>
         </tr>
-    }
-</table>
+        @foreach (Models.RefurbishedAdvertentie _ref in Model.Bedrijf.RefurbishedAvertenties)
+        {
+            <tr>
+                <td>@_ref.Product.ProductNaam</td>
+                <td>@_ref.Product.ProductType</td>
+                <td>@_ref.Product.Omschrijving</td>
+                <td>@_ref.StaatProduct</td>
+                <td>@_ref.Prijs</td>
+            </tr>
+            <tr>
+                <td>
+                    <form method="post">
+                        <button asp-page-handler="DeleteRefAd" asp-route-Adid="@_ref.AdvertentieId" class="btn btn-danger">Verwijder</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </table>
+}
 
 
-<h3>Advertenties voor refurbished producten</h3>
-<table class="table">
-    <tr>
-        <th>Productnaam</th>
-        <th>Producttype</th>
-        <th>Omschrijving</th>
-        <th>Staat van het product</th>
-        <th>Prijs</th>
-    </tr>
-    @foreach (Models.RefurbishedAdvertentie _ref in Model.Bedrijf.RefurbishedAvertenties)
-    {
-        <tr>
-            <td>@_ref.Product.ProductNaam</td>
-            <td>@_ref.Product.ProductType</td>
-            <td>@_ref.Product.Omschrijving</td>
-            <td>@_ref.StaatProduct</td>
-            <td>@_ref.Prijs</td>
-        </tr>
-        <tr>
-            <td>
-                <form method="post">
-                    <button asp-page-handler="DeleteRefAd" asp-route-Adid="@_ref.AdvertentieId" class="btn btn-danger">Verwijder</button>
-                </form>
-            </td>
-        </tr>
-    }
-</table>
-
-
-
+<br />
 
 <form method="post">
     <label for="ProductNaamInput">Productnaam:</label><input asp-for="ProductNaamInput" />
     <label for="OmSchrijvingInput">Omschrijving:</label><input asp-for="OmSchrijvingInput" />
     <label for="ProductTypeInput">Producttype:</label><input asp-for="ProductTypeInput" />
     *<br />
-    <button asp-page-handler="VoegProductToe">Voeg Toe</button>
+    <button class="btn btn-primary" asp-page-handler="VoegProductToe">Voeg Toe</button>
 </form>
 
-<a class="btn btn-primary" asp-page="MainPage"> Homepage </a>

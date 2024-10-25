@@ -26,7 +26,6 @@ namespace AutoOnderdelenSite.Pages
         {
             int id = Convert.ToInt32( Request.Cookies["UserId"]);
             Bedrijf = await autoStoreDatabase.VindBedrijfOpUserId(id);
-
         }
         public ActionResult OnPost()
         {
@@ -37,11 +36,11 @@ namespace AutoOnderdelenSite.Pages
 
         public async Task<ActionResult> OnPostVoegProductToe()
         {
-            Product niewProduct= new Product();
-            niewProduct.ProductType= ProductTypeInput;
-            niewProduct.ProductNaam= ProductNaamInput;
-            niewProduct.Omschrijving= OmSchrijvingInput;
-            await autoStoreDatabase.VoegProductToe(niewProduct);
+            Product nieuwProduct= new Product();
+            nieuwProduct.ProductType= ProductTypeInput;
+            nieuwProduct.ProductNaam= ProductNaamInput;
+            nieuwProduct.Omschrijving= OmSchrijvingInput;
+            await autoStoreDatabase.VoegProductToe(nieuwProduct);
 
             return RedirectToPage();
         }

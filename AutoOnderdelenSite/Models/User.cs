@@ -13,5 +13,6 @@ namespace AutoOnderdelenSite.Models
         
         public string Email { get; set; }
 
+        public string? BanStatus {  get; set; }
     }
 }

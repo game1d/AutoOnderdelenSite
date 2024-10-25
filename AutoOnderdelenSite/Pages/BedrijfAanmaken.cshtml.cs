@@ -37,19 +37,28 @@ namespace AutoOnderdelenSite.Pages
 
         public async Task<ActionResult> OnPost()
         {
-            try
+            string _wachtwoord = WachtwoordInput;
+            if (Validator.WachtwoordValidator(_wachtwoord))
             {
-                Bedrijf.UserName = UserNameInput;
-                Bedrijf.Wachtwoord = HasherMaker.ToSHA256(WachtwoordInput);
-                Bedrijf.Email = EmailInput;
-                Bedrijf.Adres = AdresInput;
-                Bedrijf.TelefoonNummer = TelefoonNummerInput;
-                Bedrijf.BetaalGegevens = BetaalGegevensInput;
+                try
+                {
+                    Bedrijf.UserName = UserNameInput;
+                    Bedrijf.Wachtwoord = HasherMaker.ToSHA256(WachtwoordInput);
+                    Bedrijf.Email = EmailInput;
+                    Bedrijf.Adres = AdresInput;
+                    Bedrijf.TelefoonNummer = TelefoonNummerInput;
+                    Bedrijf.BetaalGegevens = BetaalGegevensInput;
 
-                await autoStoreDatabase.ToevoegenBedrijf(Bedrijf);
-                return RedirectToPage();
+                    await autoStoreDatabase.ToevoegenBedrijf(Bedrijf);
+                    return RedirectToPage();
+                }
+                catch (Exception ex) { Errormessage = ex.Message; return Page(); }
             }
-            catch (Exception ex) { Errormessage = ex.Message; return Page(); }
+            else 
+            { 
+                Errormessage = "Je wachtwoord moet minstens 10 karakters lang zijn, een hoofdletter en een cijfer bevatten."; 
+                return Page(); 
+            }
         }
     }
 }

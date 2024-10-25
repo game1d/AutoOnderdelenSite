@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AutoOnderdelenSite.Pages
 {
-    public class BedrijfLoginModel : PageModel
+    public class BeheerderLoginModel : PageModel
     {
         private readonly AutoStoreDatabase autoStoreDatabase;
 
-        public BedrijfLoginModel(AutoStoreDatabase _autoStoreDatabase)
+        public BeheerderLoginModel(AutoStoreDatabase _autoStoreDatabase)
         {
             autoStoreDatabase = _autoStoreDatabase;
         }
@@ -21,26 +21,23 @@ namespace AutoOnderdelenSite.Pages
         public string WachtwoordInput { get; set; }
 
 
-        public void OnGet()
+        public async void OnGet()
         {
+
         }
 
         public async Task<ActionResult> OnPost()
         {
             if (EmailInput != null && WachtwoordInput != null)
             {
-                if (await autoStoreDatabase.CheckBedrijfBan(EmailInput)) 
-                {
-                    Message = "Deze user is geband."; return Page();
-                }
-                bool methodAnswer = await autoStoreDatabase.CheckBedrijfWachtwoord(EmailInput, WachtwoordInput);
+                bool methodAnswer = await autoStoreDatabase.CheckBeheerderWachtwoord(EmailInput, WachtwoordInput);
                 if (methodAnswer)
                 {
-                    Bedrijf bedrijf = await autoStoreDatabase.VindBedrijfOpEmail(EmailInput);
-                    Response.Cookies.Append("UserId", Convert.ToString(bedrijf.UserId));
-                    Response.Cookies.Append("PartOfBedrijf", "Bedrijf");
+                    Beheerder beheerder = await autoStoreDatabase.VindBeheerderOpEmail(EmailInput);
+                    Response.Cookies.Append("UserId", Convert.ToString(beheerder.UserId));
+                    Response.Cookies.Append("PartOfBedrijf", "Beheerder");
                     Message = "Inloggen is gelukt. Waarom ben je nog hier?";
-                    return RedirectToPage("/BedrijfUserPagina");
+                    return RedirectToPage("/BeheerderPagina");
                 }
                 else { Message = "inloggen heeft gefaald."; return Page(); }
             }

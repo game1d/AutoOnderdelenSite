@@ -9,7 +9,9 @@
         public string? TelefoonNummer { get; set; }
         public string? BetaalGegevens { get; set; }
         public List<TweedeHandsAdvertentie>? TweedeHandsAdvertenties { get; set; }
-        public List<Review>? Reviews { get; set; }
+        public List<ParticulierReview>? Reviews { get; set; }
+        public List<ParticulierReview>? GegevenPartReviews { get; set; }
+        public List<BedrijfReview>? GegevenBedrijfReviews { get; set; }
 
     }
 }
