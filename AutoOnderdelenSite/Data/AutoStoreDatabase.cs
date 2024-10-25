@@ -228,7 +228,7 @@ namespace AutoOnderdelenSite.Data
             DataBase.NieuwKoopDb.Add(_nieuwKoop);
             await DataBase.SaveChangesAsync();
         }
-        public async Task<List<WikiArtikelBedrijf>>GetWikiArtikelBedrijfsAsync(int wikiId)
+        public async Task<List<WikiArtikelBedrijf>>GetWikiArtikelBedrijfsAsync()
         {
             return DataBase.WikiArtikelBedrijfsDb.Include(p => p.Product).ToList();
         }

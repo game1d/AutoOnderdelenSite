@@ -1,7 +1,10 @@
-﻿namespace AutoOnderdelenSite.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AutoOnderdelenSite.Models
 {
     public class WikiArtikelParticulier
     {
+        [Key]
         public int WikiId {  get; set; }
         public Particulier AuteurParticulier { get; set; }
         public Product Product { get; set; }
