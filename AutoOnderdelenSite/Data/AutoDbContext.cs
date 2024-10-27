@@ -98,6 +98,9 @@ namespace AutoOnderdelenSite.Data
             modelBuilder.Entity<BedrijfReview>().HasData(
                 new BedrijfReview { ReviewId = 1, reviewerId = 1, GereviewdeId = 1, Beschrijving = "Poel levert goede wielen voor hun wagens", ProductId = 1, Score = 8, ReviewerName = "Bertus175" }
                 );
+
+            
         }
+
     }
 }

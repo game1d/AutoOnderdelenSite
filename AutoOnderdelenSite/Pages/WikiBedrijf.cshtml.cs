@@ -28,7 +28,7 @@ namespace AutoOnderdelenSite.Pages
             }
             context.WikiArtikelBedrijfsDb.Add(WikiArtikel);
             await context.SaveChangesAsync();
-            return Page();
+            return RedirectToPage("WikiBedrijf");
         }
     }
 }
