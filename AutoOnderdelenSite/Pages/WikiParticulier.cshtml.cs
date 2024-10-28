@@ -2,6 +2,7 @@ using AutoOnderdelenSite.Data;
 using AutoOnderdelenSite.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutoOnderdelenSite.Pages
 {
@@ -27,7 +28,7 @@ namespace AutoOnderdelenSite.Pages
             }
             context.WikiArtikelParticuliersDb.Add(WikiArtikel);
             await context.SaveChangesAsync();
-            return Page();
+            return RedirectToPage("WikiParticulier");
         }
 
         
