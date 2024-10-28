@@ -1,0 +1,118 @@
+﻿@page
+@model AutoOnderdelenSite.Pages.WijzigUserDataPaginaModel
+@{
+
+}
+@if (Model.Errormessage != null)
+{
+    <h1>@Model.Errormessage</h1>
+}
+
+
+@if (Model.partOfBedrijf == "Bedrijf")
+{
+    <form method="post">
+        <table>
+            <tr>
+                <td><label for="UserNameInput">Usernaam</label></td>
+                <td><label for="WachtwoordInput">Wachtwoord</label></td>
+                <td><label for="EmailInput">Email</label></td>
+                <td><label for="AdresInput">Adres</label></td>
+
+            </tr>
+            <tr>
+                <td><input asp-for="UserNameInput" type="text" name="UserNameInput" id="UserNameInput" value="@Model.Bedrijf.UserName"></td>
+                <td><input asp-for="WachtwoordInput" type="password" name="WachtwoordInput" id="WachtwoordInput"></td>
+                <td><input asp-for="EmailInput" type="email" name="EmailInput" id="EmailInput" value="@Model.Bedrijf.Email"></td>
+                <td><input asp-for="AdresInput" type="text" name="AdresInput" id="AdresInput" value="@Model.Bedrijf.Adres"></td>
+                <input type="hidden" asp-for="EmailForCheck" value="@Model.Bedrijf.Email" name="EmailForCheck" id="EmailForCheck" />
+            </tr>
+            <tr>
+
+                <td><label for="TelefoonNummerInput">Telefoonnummer</label></td>
+                <td><label for="NieuwWachtwoord">Nieuw wachtwoord:</label></td>
+                <td><label for="BetaalGegevensInput">Betaalgegevens</label></td>
+            </tr>
+            <tr>
+
+                <td><input asp-for="TelefoonNummerInput" type="tel" name="TelefoonNummerInput" id="TelefoonNummerInput" value="@Model.Bedrijf.TelefoonNummer"></td>
+                <td><input asp-for="NieuwWachtwoord" type="password" name="NieuwWachtwoord" id="NieuwWachtwoord" /></td>
+                <td><input asp-for="BetaalGegevensInput" type="text" name="BetaalGegevensInput" id="BetaalGegevensInput" value="@Model.Bedrijf.BetaalGegevens"></td>
+            </tr>
+            <button asp-page-handler="WijzigBedrijf" type="submit" class="btn btn-primary">wijzig</button>
+        </table>
+    </form>
+
+
+    <a class="btn btn-primary" asp-page="BedrijfUserPagina">annuleer</a>
+    <br />
+    <form method="post">
+        <input asp-for="VerwijderBedrijfCheck" value="true" type="hidden" />
+        <button asp-page-handler="VerwijderBedrijfWaarschuwing" class="btn btn-danger">Verwijder account</button>
+    </form>
+    <br />
+    @if (Model.VerwijderBedrijfCheck == null)
+    { }
+    else
+    {
+        <form method="post">
+            <button asp-page-handler="VerwijderBedrijf" type="submit" class="btn btn-danger">Verwijder! werkt nog niet</button>
+        </form>
+    }
+
+}
+
+
+@if (Model.partOfBedrijf == "Particulier")
+{
+    <form method="post">
+        <table>
+            <tr>
+                <td><label for="UserNameInput">Usernaam</label></td>
+                <td><label for="WachtwoordInput">Wachtwoord</label></td>
+                <td><label for="EmailInput">Email</label></td>
+                <td><label for="AdresInput">Adres</label></td>
+
+            </tr>
+            <tr>
+                <td><input asp-for="UserNameInput" type="text" name="UserNameInput" id="UserNameInput" value="@Model.Part.UserName"></td>
+                <td><input asp-for="WachtwoordInput" type="password" name="WachtwoordInput" id="WachtwoordInput"></td>
+                <td><input asp-for="EmailInput" type="email" name="EmailInput" id="EmailInput" value="@Model.Part.Email"></td>
+                <td><input asp-for="AdresInput" type="text" name="AdresInput" id="AdresInput" value="@Model.Part.Adres"></td>
+                <input type="hidden" asp-for="EmailForCheck" value="@Model.Part.Email" name="EmailForCheck" id="EmailForCheck" />
+            </tr>
+            <tr>
+                <td><label for="VoorNaamInput">Voornaam</label></td>
+                <td><label for="AchterNaamInput">Achternaam</label></td>
+                <td><label for="NieuwWachtwoord">Nieuw wachtwoord:</label></td>
+                <td><label for="TelefoonNummerInput">Telefoonnummer</label></td>
+                <td><label for="BetaalGegevensInput">Betaalgegevens</label></td>
+            </tr>
+            <tr>
+                <td><input asp-for="VoorNaamInput" type="text" name="VoorNaamInput" id="VoorNaamInput" value="@Model.Part.VoorNaam"></td>
+                <td><input asp-for="AchterNaamInput" type="text" name="AchterNaamInput" id="AchterNaamInput" value="@Model.Part.AchterNaam"></td>
+                <td><input asp-for="NieuwWachtwoord" type="password" name="NieuwWachtwoord" id="NieuwWachtwoord" /></td>
+                <td><input asp-for="TelefoonNummerInput" type="tel" name="TelefoonNummerInput" id="TelefoonNummerInput" value="@Model.Part.TelefoonNummer"></td>
+                <td><input asp-for="BetaalGegevensInput" type="text" name="BetaalGegevensInput" id="BetaalGegevensInput" value="@Model.Part.BetaalGegevens"></td>
+            </tr>
+            <button asp-page-handler="WijzigParticulier" type="submit" class="btn btn-primary">wijzig</button>
+        </table>
+    </form>
+
+    <a class="btn btn-primary" asp-page="ParticulierUserPagina">annuleer</a>
+    <br />
+    <form method="post">
+        <input asp-for="VerwijderPartCheck" value="true" type="hidden" />
+        <button asp-page-handler="VerwijderPartWaarschuwing" class="btn btn-danger">Verwijder account</button>
+    </form>
+    <br />
+    @if (Model.VerwijderPartCheck == null)
+    { }
+    else
+    {
+        <form method="post">
+            <button asp-page-handler="VerwijderParticulier" type="submit" class="btn btn-danger">Verwijder! werkt nog niet</button>
+        </form>
+    }
+}
+

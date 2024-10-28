@@ -2,6 +2,7 @@ using AutoOnderdelenSite.Data;
 using AutoOnderdelenSite.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace AutoOnderdelenSite.Pages
 {
@@ -17,8 +18,8 @@ namespace AutoOnderdelenSite.Pages
         [BindProperty]
         public List<Product> products { get; set; }
         [BindProperty]
-        public string advertentiesoort {  get; set; }
- 
+        public string advertentiesoort { get; set; }
+
         [BindProperty]
         public int ProductIdInput { get; set; }
         [BindProperty]
@@ -26,7 +27,9 @@ namespace AutoOnderdelenSite.Pages
         [BindProperty]
         public string StaatProductInput { get; set; }
         [BindProperty]
-        public double PrijsInput {  get; set; }
+        public string PrijsInput { get; set; }
+        [BindProperty]
+        public string message { get; set; }
 
 
         public async void OnGet(string SoortAdvertentie)
@@ -34,36 +37,69 @@ namespace AutoOnderdelenSite.Pages
             products = await autoStoreDatabase.GetAlleProductenAsync();
             advertentiesoort = SoortAdvertentie;
         }
-        
+
         public async Task<ActionResult> OnPostNieuwAdvertentieMaken()
         {
-            NieuwProductAdvertentie NieuwProdAd = new NieuwProductAdvertentie();
-            NieuwProdAd.UserId = Convert.ToInt32(Request.Cookies["UserId"]);
-            NieuwProdAd.ProductId = ProductIdInput;
-            NieuwProdAd.Aantal = AantalInput;
-            NieuwProdAd.Prijs = PrijsInput;
-            await autoStoreDatabase.VoegNieuwAdvertentieToe(NieuwProdAd);
-            return RedirectToPage("BedrijfUserPagina");
+            message = Validator.BedragValidator(PrijsInput);
+            if (message == "")
+            {
+                NieuwProductAdvertentie NieuwProdAd = new NieuwProductAdvertentie();
+                NieuwProdAd.UserId = Convert.ToInt32(Request.Cookies["UserId"]);
+                NieuwProdAd.ProductId = ProductIdInput;
+                NieuwProdAd.Aantal = AantalInput;
+                NieuwProdAd.Prijs = Convert.ToDouble(PrijsInput);
+                await autoStoreDatabase.VoegNieuwAdvertentieToe(NieuwProdAd);
+                return RedirectToPage("BedrijfUserPagina");
+            }
+            else
+            {
+                products = await autoStoreDatabase.GetAlleProductenAsync();
+                advertentiesoort = "nieuw";
+
+                return Page();
+            }
         }
         public async Task<ActionResult> OnPostRefurbishedAdvertentieMaken()
         {
-            RefurbishedAdvertentie refurbishedAdvertentie = new RefurbishedAdvertentie();
-            refurbishedAdvertentie.UserId = Convert.ToInt32(Request.Cookies["UserId"]);
-            refurbishedAdvertentie.ProductId = ProductIdInput;
-            refurbishedAdvertentie.StaatProduct = StaatProductInput;
-            refurbishedAdvertentie.Prijs = PrijsInput;
-            await autoStoreDatabase.VoegRefurbishedAdvertentieToe(refurbishedAdvertentie);
-            return RedirectToPage("BedrijfUserPagina");
+            message = Validator.BedragValidator(PrijsInput);
+            if (message == "")
+            {
+                RefurbishedAdvertentie refurbishedAdvertentie = new RefurbishedAdvertentie();
+                refurbishedAdvertentie.UserId = Convert.ToInt32(Request.Cookies["UserId"]);
+                refurbishedAdvertentie.ProductId = ProductIdInput;
+                refurbishedAdvertentie.StaatProduct = StaatProductInput;
+                refurbishedAdvertentie.Prijs = Convert.ToDouble(PrijsInput);
+                await autoStoreDatabase.VoegRefurbishedAdvertentieToe(refurbishedAdvertentie);
+                return RedirectToPage("BedrijfUserPagina");
+            }
+            else
+            {
+                products = await autoStoreDatabase.GetAlleProductenAsync();
+                advertentiesoort = "refurbished";
+
+                return Page();
+            }
         }
         public async Task<ActionResult> OnPostTweedeHandsAdvertentieMaken()
         {
-            TweedeHandsAdvertentie TweedHands = new TweedeHandsAdvertentie();
-            TweedHands.UserId=Convert.ToInt32(Request.Cookies["UserId"]);
-            TweedHands.ProductId = ProductIdInput;
-            TweedHands.StaatProduct= StaatProductInput;
-            TweedHands.Prijs = PrijsInput;
-            await autoStoreDatabase.VoegTweedeHandsAdvertentieToe(TweedHands);
-            return RedirectToPage("ParticulierUserPagina");
+            message = Validator.BedragValidator(PrijsInput);
+            if (message == "")
+            {
+                TweedeHandsAdvertentie TweedHands = new TweedeHandsAdvertentie();
+                TweedHands.UserId = Convert.ToInt32(Request.Cookies["UserId"]);
+                TweedHands.ProductId = ProductIdInput;
+                TweedHands.StaatProduct = StaatProductInput;
+                TweedHands.Prijs = Convert.ToDouble(PrijsInput);
+                await autoStoreDatabase.VoegTweedeHandsAdvertentieToe(TweedHands);
+                return RedirectToPage("ParticulierUserPagina");
+            }
+            else
+            {
+                products = await autoStoreDatabase.GetAlleProductenAsync();
+                advertentiesoort = "tweedehands";
+
+                return Page();
+            }
         }
     }
 }

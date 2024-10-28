@@ -3,6 +3,10 @@
 @{
 }
 
+@if (Model.message != null)
+{
+    <h3>@Model.message</h3>
+}
 
 @if (Model.AdvertentieSoort == "Tweedehands")
 {
@@ -29,7 +33,7 @@
             <td><label asp-for="KoperNaamInput">Naam:</label><input type="text" asp-for="KoperNaamInput" name="KoperNaamInput" id="KoperNaamInput" /></td>
             <td><label asp-for="KoperAdresInput">Adres:</label><input type="text" asp-for="KoperAdresInput" name="KoperAdresInput" id="KoperAdresInput" /></td>
             <td><label asp-for="BetaalGegevens">Betaalgegevens:</label><input type="text" asp-for="BetaalGegevens" name="BetaalGegevens" id="BetaalGegevens" /></td>
-            <td><label asp-for="Bedrag">Bedrag:</label><input type="number" asp-for="Bedrag" name="Bedrag" id="Bedrag" /></td>
+            <td><label asp-for="Bedrag">Bedrag:</label><input type="text" asp-for="Bedrag" name="Bedrag" id="Bedrag" /></td>
             <td>
                 <button asp-page-handler="Bied" class="btn btn-primary">Koop</button>
             </td>

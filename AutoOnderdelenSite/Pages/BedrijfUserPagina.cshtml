@@ -8,7 +8,23 @@
 <form method="post"><button class="btn btn-primary"> Logout </button></form>
 
 <h2>Dit is de pagina van @Model.Bedrijf.UserName</h2>
+<h3>Gegevens:</h3>
+<table class="table-info">
+    <tr>
+        <th>Usernaam</th>
+        <th>Adres</th>
+        <th>Telefoonnumer</th>
+        <th>Betaalgegevens</th>
+    </tr>
+    <tr>
+        <td>@Model.Bedrijf.UserName</td>
+        <td>@Model.Bedrijf.Adres</td>
+        <td>@Model.Bedrijf.TelefoonNummer</td>
+        <td>@Model.Bedrijf.BetaalGegevens</td>
+    </tr>
+</table>
 
+<a class="btn btn-primary" asp-page="WijzigUserDataPagina"> Wijzig gegevens</a>
 
 <br />
 

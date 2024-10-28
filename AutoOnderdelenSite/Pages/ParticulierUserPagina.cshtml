@@ -4,6 +4,29 @@
 }
 
 <h2>Dit is de pagina van @Model.Particulier.UserName</h2>
+<h3>Gegevens:</h3>
+<table class="table-info">
+    <tr>
+        <th>Usernaam</th>
+        <th>Adres</th>
+        <th>Telefoonnumer</th>
+        <th>Betaalgegevens</th>
+    </tr>
+    <tr>
+        <td>@Model.Particulier.UserName</td>
+        <td>@Model.Particulier.Adres</td>
+        <td>@Model.Particulier.TelefoonNummer</td>
+        <td>@Model.Particulier.BetaalGegevens</td>
+    </tr>
+</table>
+<br />
+<form method="post"><button class="btn btn-primary"> Logout </button></form>
+
+<a class="btn btn-primary" asp-page="MainPage"> Homepage </a>
+<br />
+
+
+<a class="btn btn-primary" asp-page="WijzigUserDataPagina"> Wijzig gegevens</a>
 
 <a asp-page="AdvertentieMaakPagina" asp-route-SoortAdvertentie="tweedehands" class="btn btn-primary">maak advertentie voor een tweedehands product</a>
 
@@ -16,7 +39,7 @@
         <th>Staat van het product</th>
         <th>Prijs</th>
     </tr>
-    @foreach (Models.TweedeHandsAdvertentie _adv in Model.Particulier.TweedeHandsAdvertenties)
+    @foreach (Models.TweedeHandsAdvertentie _adv in Model.lijstAdv)
     {
         <tr>
             <td>@_adv.Product.ProductNaam</td>
@@ -25,6 +48,23 @@
             <td>@_adv.StaatProduct</td>
             <td>@_adv.Prijs</td>
         </tr>
+        @if (_adv.biedingen != null)
+        {
+            <tr><td>Biedingen</td></tr>
+            <tr>
+                <th>Koopernaam:</th>
+                <th>bedrag:</th>
+                <th>adres</th>
+            </tr>
+            @foreach (Models.Bieding bieding in _adv.biedingen)
+            {
+                <tr>
+                    <td>@bieding.KoperNaam</td>
+                    <td>@bieding.Bedrag</td>
+                    <td>@bieding.KoperAdres</td>
+                </tr>
+            }
+        }
         <tr>
             <td>
                 <form method="post">
@@ -36,8 +76,79 @@
 
 </table>
 
+<br />
+<h3>Let op Hoofdletters!</h3>
+<br />
+<form method="post">
+    <input asp-for="ZoekTerm" type="text" />
+    <button asp-page-handler="ZoekParticulier" type="submit" class="btn btn-primary">zoek op particulier</button>
+</form>
+<br />
+
+@if (Model.PartResultaat != null)
+{
+    <h3>Lijst particuliere gebruikers</h3>
+    <table class="table">
+        <tr>
+            <th>Voornaam</th>
+            <th>Achternaam</th>
+            <th>Usernaam</th>
+            <th>Telefoonnumer</th>
+            <th>Email</th>
+        </tr>
+        @foreach (Models.Particulier _particulier in Model.PartResultaat)
+        {
+            <tr>
+                <td>@_particulier.VoorNaam</td>
+                <td>@_particulier.AchterNaam</td>
+                <td>@_particulier.UserName</td>
+                <td>@_particulier.TelefoonNummer</td>
+                <td>@_particulier.Email</td>
+            </tr>
+            <tr>
+                <td>
+                    <a class="link-primary" asp-page="ReviewschrijfPagina" asp-route-reviewSoort="Particulier" asp-route-GereviewdeId="@_particulier.UserId" asp-route-reviewerId="@Model.Particulier.UserId">Schrijf review</a>
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+<br />
+<form method="post">
+    <input asp-for="ZoekTerm" type="text" />
+    <button asp-page-handler="ZoekBedrijf" type="submit" class="btn btn-primary">zoek op bedijf</button>
+</form>
+<br />
+
+@if (Model.BedrijfResultaat != null)
+{
+    <h3>Lijst bedrijven</h3>
+    <table class="table">
+        <tr>
+
+            <th>Usernaam</th>
+            <th>Adres</th>
+            <th>Telefoonnumer</th>
+            <th>Email</th>
+
+        </tr>
+        @foreach (Models.Bedrijf _Bedrijf in Model.BedrijfResultaat)
+        {
+            <tr>
+                <td>@_Bedrijf.UserName</td>
+                <td>@_Bedrijf.Adres</td>
+                <td>@_Bedrijf.TelefoonNummer</td>
+                <td>@_Bedrijf.Email</td>
+
+            </tr>
+            <tr>
+                <td>
+                    <a class="link-primary" asp-page="ReviewschrijfPagina" asp-route-reviewSoort="Bedrijf" asp-route-GereviewdeId="@_Bedrijf.UserId" asp-route-reviewerId="@Model.Particulier.UserId">Schrijf review</a>
+                </td>
+            </tr>
+        }
+    </table>
+}
 
 
-<form method="post"><button class="btn btn-primary"> Logout </button></form>
-
-<a class="btn btn-primary" asp-page="MainPage"> Homepage </a>

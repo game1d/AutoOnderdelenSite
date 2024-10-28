@@ -38,6 +38,7 @@
 
 
 <br />
+<h3>Zoek hier naar producten. Let op Hoofdletters!</h3>
 <br />
 <form method="post">
     <input asp-for="ZoekTerm" type="text" />
@@ -45,7 +46,7 @@
 </form>
 <br />
 
-@if (Model.tweedeHandsAdvResult != null)
+@if (Model.tweedeHandsAdvResult != null)//Met .count geeft hij een error omdat er eerst geen zoeopdracht is uitgevoerd.
 {
     <h3>advertenties voor tweede hands producten</h3>
     <table class="table">
@@ -123,6 +124,105 @@
                     <a class="link-primary" asp-page="AdvertentiePagina" asp-route-advertentieSoort="Nieuw" asp-route-advertentieId="@_adv.AdvertentieId">naar advertentie</a>
                 </td>
             </tr>
+        }
+    </table>
+}
+
+<br />
+<h3>Zoek hier naar Users en reviews. Let op Hoofdletters!</h3>
+<br />
+<form method="post">
+    <input asp-for="ZoekTerm" type="text" />
+    <button asp-page-handler="ZoekParticulier" type="submit" class="btn btn-primary">zoek op particulier</button>
+</form>
+<br />
+
+@if (Model.PartResultaat != null)
+{
+    <h3>Lijst particuliere gebruikers</h3>
+    <table class="table">
+        <tr>
+
+            <th>Usernaam</th>
+            <th>Telefoonnumer</th>
+            <th>Email</th>
+        </tr>
+        @foreach (Models.Particulier _particulier in Model.PartResultaat)
+        {
+            <tr>
+
+                <td>@_particulier.UserName</td>
+                <td>@_particulier.TelefoonNummer</td>
+                <td>@_particulier.Email</td>
+            </tr>
+            if(_particulier.Reviews!=null)
+            {
+                <tr><td>Reviews</td></tr>
+                <tr>
+                    <th>reviewernaam</th>
+                    <th>score</th>
+                    <th>beschrijving</th>
+                </tr>
+                
+            }
+            @foreach (Models.ParticulierReview _partReview in _particulier.Reviews)
+            {
+                <tr>
+                    <td>@_partReview.ReviewerName</td>
+                    <td>@_partReview.Score</td>
+                    <td>@_partReview.Beschrijving</td>
+                </tr>
+            }
+        }
+    </table>
+}
+
+<br />
+<form method="post">
+    <input asp-for="ZoekTerm" type="text" />
+    <button asp-page-handler="ZoekBedrijf" type="submit" class="btn btn-primary">zoek op bedijf</button>
+</form>
+<br />
+
+@if (Model.BedrijfResultaat != null)
+{
+    <h3>Lijst bedrijven</h3>
+    <table class="table">
+        <tr>
+
+            <th>Bedrijfnaam</th>
+            <th>Adres</th>
+            <th>Telefoonnumer</th>
+            <th>Email</th>
+
+        </tr>
+        @foreach (Models.Bedrijf _Bedrijf in Model.BedrijfResultaat)
+        {
+            <tr>
+                <td>@_Bedrijf.UserName</td>
+                <td>@_Bedrijf.Adres</td>
+                <td>@_Bedrijf.TelefoonNummer</td>
+                <td>@_Bedrijf.Email</td>
+
+            </tr>
+            if (_Bedrijf.Reviews != null)
+            {
+                <tr><td>Reviews</td></tr>
+                <tr>
+                    <th>reviewernaam</th>
+                    <th>score</th>
+                    <th>beschrijving</th>
+                </tr>
+
+            }
+            @foreach (Models.BedrijfReview _bedrijfReview in _Bedrijf.Reviews)
+            {
+                <tr>
+                    <td>@_bedrijfReview.ReviewerName</td>
+                    <td>@_bedrijfReview.Score</td>
+                    <td>@_bedrijfReview.Beschrijving</td>
+                </tr>
+            }
         }
     </table>
 }

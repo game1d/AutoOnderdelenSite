@@ -44,6 +44,16 @@ namespace AutoOnderdelenSite.Pages
         [BindProperty]
         public string ZoekTerm {  get; set; }
 
+        public IList<Bedrijf> Bedrijven { get; set; }
+        [BindProperty]
+        public List<Bedrijf> BedrijfResultaat { get; set; }
+
+        public IList<Particulier> Particulieren { get; set; }
+        [BindProperty]
+        public List<Particulier> PartResultaat { get; set; }
+      
+
+
         public async void OnGet()
         {
             currentUserId = Request.Cookies["UserId"];
@@ -60,6 +70,9 @@ namespace AutoOnderdelenSite.Pages
 
         public async Task<ActionResult> OnPostZoek()
         {
+            currentUserId = Request.Cookies["UserId"];
+            partOfBedrijf = Request.Cookies["PartOfBedrijf"];
+
             tweedeHandsAdvertenties = await autoStoreDatabase.GetTweedeHandsAdvertentiesAsync();
             refurbishedAdvertenties = await autoStoreDatabase.GetRefurbishedAdvertentiesAsync();
             nieuwAdvertenties = await autoStoreDatabase.GetNieuweProductAdvertentiesAsync();
@@ -88,5 +101,32 @@ namespace AutoOnderdelenSite.Pages
             return Page();
         }
 
+        public async Task<ActionResult> OnPostZoekParticulier()
+        {
+            Particulieren = await autoStoreDatabase.GetParticulierenAsync();
+
+            foreach (var _part in Particulieren)
+            {
+                if (_part.UserName.Contains(ZoekTerm))
+                {
+                    PartResultaat.Add(_part);
+                }
+            }
+            return Page();
+        }
+
+        public async Task<ActionResult> OnPostZoekBedrijf()
+        {
+            Bedrijven = await autoStoreDatabase.GetBedrijvenAsync();
+
+            foreach (var _bedrijf in Bedrijven)
+            {
+                if (_bedrijf.UserName.Contains(ZoekTerm))
+                {
+                    BedrijfResultaat.Add(_bedrijf);
+                }
+            }
+            return Page();
+        }
     }
 }

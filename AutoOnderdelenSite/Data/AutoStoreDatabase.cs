@@ -15,7 +15,8 @@ namespace AutoOnderdelenSite.Data
 
         public async Task<List<Particulier>> GetParticulierenAsync()
         {
-            return DataBase.ParticulierDb.Include(s => s.TweedeHandsAdvertenties).ThenInclude(r=>r.Product).ToList();
+            return DataBase.ParticulierDb.Include(s => s.TweedeHandsAdvertenties).ThenInclude(r => r.Product)
+                                        .Include(t=>t.Reviews).ToList();
         }
         public async Task<List<Beheerder>> GetBeheerdersAsync()
         {
@@ -23,12 +24,13 @@ namespace AutoOnderdelenSite.Data
         }
         public async Task<List<Bedrijf>> GetBedrijvenAsync()
         {
-            return DataBase.BedrijfDb.Include(s => s.RefurbishedAvertenties).ThenInclude(q=>q.Product)
-                                    .Include(t => t.NieuwProductAdvertenties).ThenInclude(u => u.Product).ToList();
+            return DataBase.BedrijfDb.Include(s => s.RefurbishedAvertenties).ThenInclude(q => q.Product)
+                                    .Include(t => t.NieuwProductAdvertenties).ThenInclude(u => u.Product)
+                                    .Include(v=>v.Reviews).ThenInclude(w=>w.Product).ToList();
         }
         public async Task<List<TweedeHandsAdvertentie>> GetTweedeHandsAdvertentiesAsync()
         {
-            return DataBase.TweedeHandsAdvertentieDb.Include(s => s.Product).ToList();
+            return DataBase.TweedeHandsAdvertentieDb.Include(s => s.Product).Include(t=>t.biedingen).ToList();
         }
         public async Task<List<RefurbishedAdvertentie>> GetRefurbishedAdvertentiesAsync()
         {
@@ -36,7 +38,7 @@ namespace AutoOnderdelenSite.Data
         }
         public async Task<List<NieuwProductAdvertentie>> GetNieuweProductAdvertentiesAsync()
         {
-            return DataBase.NieuwProductAdvertentieDb.Include(s=>s.Product).ToList();
+            return DataBase.NieuwProductAdvertentieDb.Include(s => s.Product).ToList();
         }
         public async Task<List<Product>> GetAlleProductenAsync()
         {
@@ -179,7 +181,7 @@ namespace AutoOnderdelenSite.Data
             Bedrijf _bedrijf = await VindBedrijfOpEmail(emailAdres);
             if (_bedrijf.BanStatus == "ban")
             {
-                    _result = true;
+                _result = true;
             }
             return _result;
         }
@@ -210,10 +212,10 @@ namespace AutoOnderdelenSite.Data
         {
             NieuwProductAdvertentie result = new NieuwProductAdvertentie();
             var adList = await GetNieuweProductAdvertentiesAsync();
-            foreach (var ad in adList) 
-            { 
-            if(ad.AdvertentieId == nieuwProdId) 
-                { result=ad; }
+            foreach (var ad in adList)
+            {
+                if (ad.AdvertentieId == nieuwProdId)
+                { result = ad; }
             }
             return result;
         }
@@ -262,7 +264,7 @@ namespace AutoOnderdelenSite.Data
         }
         public async Task VerwijderNieuwAdvertentie(int advId)
         {
-            NieuwProductAdvertentie nieuwProductAdvertentie= await GetNieuwAdvertentie(advId);
+            NieuwProductAdvertentie nieuwProductAdvertentie = await GetNieuwAdvertentie(advId);
             DataBase.NieuwProductAdvertentieDb.Remove(nieuwProductAdvertentie);
             await DataBase.SaveChangesAsync();
         }
@@ -276,9 +278,23 @@ namespace AutoOnderdelenSite.Data
 
         public async Task VerwijderTweedeHandsAdvertentie(int advId)
         {
-            TweedeHandsAdvertentie tweedeHandsAdvertentie= await GetTweedeHandsAdvertentie(advId);
+            TweedeHandsAdvertentie tweedeHandsAdvertentie = await GetTweedeHandsAdvertentie(advId);
             DataBase.TweedeHandsAdvertentieDb.Remove(tweedeHandsAdvertentie);
             await DataBase.SaveChangesAsync();
+        }
+
+        public async Task<List<TweedeHandsAdvertentie>> VindTweedeHandsBiedingenOpEigenaar(int eigenenaarId)
+        {
+            var result = new List<TweedeHandsAdvertentie>();
+            List<TweedeHandsAdvertentie> lijstAdv = await GetTweedeHandsAdvertentiesAsync();
+            foreach (var adv in lijstAdv)
+            {
+                if (adv.UserId == eigenenaarId)
+                {
+                    result.Add(adv);
+                }
+            }
+            return result;
         }
 
         public async Task MaakBieding(Bieding _bieding)
@@ -304,11 +320,26 @@ namespace AutoOnderdelenSite.Data
             await DataBase.SaveChangesAsync();
         }
 
+        public async Task VerwijderParticulier(int _partId)
+        {
+            Particulier _part = await VindParticulierOpUserId(_partId);
+            DataBase.ParticulierDb.Remove(_part);
+            await DataBase.SaveChangesAsync();
+        }
+
         public async Task UpdateBedrijf(Bedrijf _bedrijf)
         {
             DataBase.BedrijfDb.Update(_bedrijf);
             await DataBase.SaveChangesAsync();
         }
+
+        public async Task VerwijderBedrijf(int _bedrijfId)
+        {
+            Bedrijf _bedrijf = await VindBedrijfOpUserId(_bedrijfId);
+            DataBase.BedrijfDb.Remove(_bedrijf);
+            await DataBase.SaveChangesAsync();
+        }
+
         public async Task UpdateTweedeHandsAdv(TweedeHandsAdvertentie _adv)
         {
             DataBase.TweedeHandsAdvertentieDb.Update(_adv);
@@ -324,7 +355,7 @@ namespace AutoOnderdelenSite.Data
             DataBase.NieuwProductAdvertentieDb.Update(_adv);
             await DataBase.SaveChangesAsync();
         }
-        public async Task<List<WikiArtikelBedrijf>>GetWikiArtikelBedrijfsAsync()
+        public async Task<List<WikiArtikelBedrijf>> GetWikiArtikelBedrijfsAsync()
         {
             return DataBase.WikiArtikelBedrijfsDb.Include(p => p.Product).ToList();
         }
@@ -332,7 +363,7 @@ namespace AutoOnderdelenSite.Data
         {
             return DataBase.WikiArtikelParticuliersDb.Include(p => p.Product).ToList();
         }
-        public async Task<List<ProductWikiVerzameling>>ProductWikiVerzamelingsAsync()
+        public async Task<List<ProductWikiVerzameling>> ProductWikiVerzamelingsAsync()
         {
             return DataBase.ProductWikiVerzameling.Include(p => p.Product).ToList();
         }
@@ -347,19 +378,28 @@ namespace AutoOnderdelenSite.Data
             DataBase.Add(wikiArtikel);
             await DataBase.SaveChangesAsync();
         }
-       /* public async Task VerwijderWikiArtikelBedrijf(int WikiId)
+        /* public async Task VerwijderWikiArtikelBedrijf(int WikiId)
+         {
+             WikiArtikelBedrijf wikiArtikelBedrijf = await GetWikiArtikelBedrijfsAsync(WikiId);
+             DataBase.WikiArtikelBedrijfsDb.Remove(wikiArtikelBedrijf);
+             await DataBase.SaveChangesAsync();
+         }
+         public async Task VerwijderWikiArtikelParticulier(int WikiId)
+         {
+             WikiArtikelParticulier wikiArtikelParticulier = await GetWikiArtikelParticulier(WikiId);
+             DataBase.WikiArtikelParticuliersDb.Remove(wikiArtikelParticulier);
+             await DataBase.SaveChangesAsync();
+         }*/
+
+        public async Task MaakPartReview(ParticulierReview _review)
         {
-            WikiArtikelBedrijf wikiArtikelBedrijf = await GetWikiArtikelBedrijfsAsync(WikiId);
-            DataBase.WikiArtikelBedrijfsDb.Remove(wikiArtikelBedrijf);
+            DataBase.PartReviewDb.Add(_review);
             await DataBase.SaveChangesAsync();
         }
-        public async Task VerwijderWikiArtikelParticulier(int WikiId)
+        public async Task MaakBedrijfReview(BedrijfReview _review)
         {
-            WikiArtikelParticulier wikiArtikelParticulier = await GetWikiArtikelParticulier(WikiId);
-            DataBase.WikiArtikelParticuliersDb.Remove(wikiArtikelParticulier);
+            DataBase.BedrijfReviewDb.Add(_review);
             await DataBase.SaveChangesAsync();
-        }*/
-        
-        
+        }
     }
 }

@@ -39,7 +39,8 @@ namespace AutoOnderdelenSite.Data
             modelBuilder.Entity<ParticulierReview>()
                 .HasOne(x => x.GereviewdeParticulier)
                 .WithMany(x => x.Reviews)
-                .HasForeignKey(x => x.GereviewdeId);
+                .HasForeignKey(x => x.GereviewdeId)
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<BedrijfReview>()
                 .HasOne(x => x.ReviewerParticulier)
@@ -50,7 +51,8 @@ namespace AutoOnderdelenSite.Data
             modelBuilder.Entity<BedrijfReview>()
                 .HasOne(x => x.GereviewdBedrijf)
                 .WithMany(x => x.Reviews)
-                .HasForeignKey(x => x.GereviewdeId);
+                .HasForeignKey(x => x.GereviewdeId)
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<Particulier>().HasData(
                 new Particulier { UserId = 1, UserName = "Bertus175", Wachtwoord = HasherMaker.ToSHA256("Wachtwoord1"), VoorNaam = "Bert", AchterNaam = "Havik", Adres = "Paterstraat 12", Email = "Berthavik@sox.nl", TelefoonNummer = "06-735921864", BetaalGegevens = "GNI 2154846" },
@@ -98,6 +100,10 @@ namespace AutoOnderdelenSite.Data
             modelBuilder.Entity<BedrijfReview>().HasData(
                 new BedrijfReview { ReviewId = 1, reviewerId = 1, GereviewdeId = 1, Beschrijving = "Poel levert goede wielen voor hun wagens", ProductId = 1, Score = 8, ReviewerName = "Bertus175" }
                 );
+            modelBuilder.Entity<Bieding>().HasData(
+                new Bieding { AdvertentieId=1, KoopId=1, KoperNaam="Niels Poelier", Bedrag=29, KoperAdres="Kipstraat 44", Betaalgegevens="vfbsds45423785"}
+                );
+
         }
     }
 }

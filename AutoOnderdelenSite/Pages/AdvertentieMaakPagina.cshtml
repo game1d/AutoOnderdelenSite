@@ -2,7 +2,10 @@
 @model AutoOnderdelenSite.Pages.AdvertentieMaakPaginaModel
 @{
 }
-
+@if (Model.message != null)
+{
+    <h3>@Model.message</h3>
+}
 
 @if(Model.advertentiesoort=="nieuw")
 {
@@ -15,7 +18,7 @@
             }
         </select>
         <label for="AantalInput">aantal:</label><input asp-for="AantalInput" name="AantalInput" id="AantalInput" type="number" />
-        <label for="PrijsInput">prijs:</label><input asp-for="PrijsInput" name="PrijsInput" id="PrijsInput" type="number" />
+        <label for="PrijsInput">prijs:</label><input asp-for="PrijsInput" name="PrijsInput" id="PrijsInput" type="text" />
         <button asp-page-handler="NieuwAdvertentieMaken" type="submit">Maak Advertentie</button>
     </form>
     <a asp-page="/BedrijfUserPagina" class="btn btn-primary">annuleer</a>
@@ -32,7 +35,7 @@
             }
         </select>
         <label for="StaatProductInput">Staat van het product:</label><input asp-for="StaatProductInput" name="StaatProductInput" id="StaatProductInput" type="text" />
-        <label for="PrijsInput">prijs:</label><input asp-for="PrijsInput" name="PrijsInput" id="PrijsInput" type="number" />
+        <label for="PrijsInput">prijs:</label><input asp-for="PrijsInput" name="PrijsInput" id="PrijsInput" type="text" />
         <button asp-page-handler="RefurbishedAdvertentieMaken" type="submit">Maak Advertentie</button>
     </form>
     <a asp-route="/BedrijfUserPagina" class="btn btn-primary">annuleer</a>
@@ -49,7 +52,7 @@
             }
         </select>
         <label for="StaatProductInput">Staat van het product:</label><input asp-for="StaatProductInput" name="StaatProductInput" id="StaatProductInput" type="text" />
-        <label for="PrijsInput">prijs:</label><input asp-for="PrijsInput" name="PrijsInput" id="PrijsInput" type="number" />
+        <label for="PrijsInput">prijs:</label><input asp-for="PrijsInput" name="PrijsInput" id="PrijsInput" type="text" />
         <button asp-page-handler="TweedeHandsAdvertentieMaken" type="submit">Maak Advertentie</button>
     </form>
     <a asp-route="/ParticulierUserPagina" class="btn btn-primary">annuleer</a>

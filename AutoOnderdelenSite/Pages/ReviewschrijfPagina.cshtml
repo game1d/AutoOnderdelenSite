@@ -1,0 +1,81 @@
+﻿@page
+@model AutoOnderdelenSite.Pages.ReviewschrijfPaginaModel
+@{
+}
+
+@if(Model.Message!=null)
+{
+    <h2>@Model.Message</h2>
+}
+
+@if (Model.ReviewSoort == "Particulier")
+{
+    <form method="post">
+        <input type="hidden" value="@Model.Reviewer.UserId" asp-for="ReviewerIdInput" name="ReviewerIdInput" id="ReviewerIdInput" />
+        <input type="hidden" value="@Model.GereviewdePart.UserId" asp-for="GereviewdeInput" name="GereviewdeInput" id="GereviewdeInput" />
+        <table>
+            <tr>
+                <th>Reviewernaam</th>
+                <th>Product</th>
+                <th>Score(van 0 tot 10)</th>
+
+            </tr>
+            <tr>
+                <td><input type="text" name="ReviewerNameInput" value="@Model.Reviewer.UserName" inert="inert" asp-for="ReviewerNameInput" /></td>
+                <td>
+                    <select asp-for="ProductIdInput" name="ProductIdInput" id="ProductIdInput">
+                        @foreach (Models.Product _product in Model.products)
+                        {
+                            <option value="@_product.ProductId">@_product.ProductNaam</option>
+                        }
+                    </select>
+                </td>
+                <td><input type="number" name="ScoreInput" id="ScoreInput" asp-for="ScoreInput" /></td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Omschrijving:</label><input type="text" asp-for="OmschrijvingInput" name="OmschrijvingInput" id="OmschrijvingInput" />
+                </td>
+            </tr>
+            <tr>
+                <td><button asp-page-handler="ReviewParticulier">Post review</button></td>
+            </tr>
+        </table>
+    </form>
+}
+
+@if (Model.ReviewSoort == "Bedrijf")
+{
+    <form method="post">
+        <input type="hidden" value="@Model.Reviewer.UserId" asp-for="ReviewerIdInput" name="ReviewerIdInput" id="ReviewerIdInput" />
+        <input type="hidden" value="@Model.GereviewdeBedrijf.UserId" asp-for="GereviewdeInput" name="GereviewdeInput" id="GereviewdeInput" />
+        <table>
+            <tr>
+                <th>Reviewernaam</th>
+                <th>Product</th>
+                <th>Score(van 0 tot 10)</th>
+
+            </tr>
+            <tr>
+                <td><input type="text" name="ReviewerNameInput" value="@Model.Reviewer.UserName" inert="inert" asp-for="ReviewerNameInput" /></td>
+                <td>
+                    <select asp-for="ProductIdInput" name="ProductIdInput" id="ProductIdInput">
+                        @foreach (Models.Product _product in Model.products)
+                        {
+                            <option value="@_product.ProductId">@_product.ProductNaam</option>
+                        }
+                    </select>
+                </td>
+                <td><input type="number" name="ScoreInput" id="ScoreInput" asp-for="ScoreInput" /></td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Omschrijving:</label><input type="text" asp-for="OmschrijvingInput" name="OmschrijvingInput" id="OmschrijvingInput" />
+                </td>
+            </tr>
+            <tr>
+                <td><button asp-page-handler="ReviewBedrijf">Post review</button></td>
+            </tr>
+        </table>
+    </form>
+}

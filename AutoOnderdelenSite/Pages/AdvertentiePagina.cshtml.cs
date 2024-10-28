@@ -30,11 +30,13 @@ namespace AutoOnderdelenSite.Pages
         [BindProperty]
         public string BetaalGegevens { get; set; }
         [BindProperty]
-        public double Bedrag { get; set; }
+        public string Bedrag { get; set; }
         [BindProperty]
         public int AdvertentieId { get; set; }
         [BindProperty]
         public int Aantal { get; set; }
+        [BindProperty]
+        public string message { get; set; }
 
         public async void OnGet(string advertentieSoort, int advertentieId)
         {
@@ -60,32 +62,46 @@ namespace AutoOnderdelenSite.Pages
 
         public async Task<ActionResult> OnPostBied()
         {
-            Bieding _bieding = new Bieding();
+            message = Validator.BedragValidator(Bedrag);
+            if (message == "")
+            {
+                Bieding _bieding = new Bieding();
 
-            _bieding.AdvertentieId = AdvertentieId;
-            _bieding.KoperNaam = KoperNaamInput;
-            _bieding.KoperAdres = KoperAdresInput;
-            _bieding.Betaalgegevens = BetaalGegevens;
-            _bieding.Bedrag = Bedrag;
-            await autoStoreDatabase.MaakBieding(_bieding);
-            return RedirectToPage("/MainPage");
+                _bieding.AdvertentieId = AdvertentieId;
+                _bieding.KoperNaam = KoperNaamInput;
+                _bieding.KoperAdres = KoperAdresInput;
+                _bieding.Betaalgegevens = BetaalGegevens;
+                _bieding.Bedrag = Convert.ToDouble(Bedrag);
+                await autoStoreDatabase.MaakBieding(_bieding);
+                return RedirectToPage("/MainPage");
+            }
+            else
+            {
+                AdvertentieSoort = "Tweedehands";
+                TweedAdv = await autoStoreDatabase.GetTweedeHandsAdvertentie(AdvertentieId);
+                return Page();
+            }
+
         }
 
         public async Task<ActionResult> OnPostKoopRef()
         {
-            KoopRefurbished _RefurKoop = new KoopRefurbished();
 
-            _RefurKoop.AdvertentieId = AdvertentieId;
-            _RefurKoop.KoperNaam = KoperNaamInput;
-            _RefurKoop.KoperAdres = KoperAdresInput;
-            _RefurKoop.Betaalgegevens = BetaalGegevens;
-            _RefurKoop.Bedrag = Bedrag;
-            await autoStoreDatabase.MaakRefurKoop(_RefurKoop);
-            return RedirectToPage("/MainPage");
+                KoopRefurbished _RefurKoop = new KoopRefurbished();
+
+                _RefurKoop.AdvertentieId = AdvertentieId;
+                _RefurKoop.KoperNaam = KoperNaamInput;
+                _RefurKoop.KoperAdres = KoperAdresInput;
+                _RefurKoop.Betaalgegevens = BetaalGegevens;
+                _RefurKoop.Bedrag = Convert.ToDouble(Bedrag);
+                await autoStoreDatabase.MaakRefurKoop(_RefurKoop);
+                return RedirectToPage("/MainPage");
+
         }
-
         public async Task<ActionResult> OnPostKoopNieuw()
         {
+
+
             NieuwKoop _nieuwKoop = new NieuwKoop();
 
             _nieuwKoop.AdvertentieId = AdvertentieId;
@@ -93,9 +109,11 @@ namespace AutoOnderdelenSite.Pages
             _nieuwKoop.KoperAdres = KoperAdresInput;
             _nieuwKoop.Betaalgegevens = BetaalGegevens;
             _nieuwKoop.Aantal = Aantal;
-            _nieuwKoop.TotaalBedrag = (Bedrag * Aantal);
+            _nieuwKoop.TotaalBedrag = (Convert.ToDouble(Bedrag) * Aantal);
             await autoStoreDatabase.MaakNieuwKoop(_nieuwKoop);
             return RedirectToPage("/MainPage");
+
         }
     }
 }
+
