@@ -380,18 +380,7 @@ namespace AutoOnderdelenSite.Data
             DataBase.Add(wikiArtikel);
             await DataBase.SaveChangesAsync();
         }
-        /* public async Task VerwijderWikiArtikelBedrijf(int WikiId)
-         {
-             WikiArtikelBedrijf wikiArtikelBedrijf = await GetWikiArtikelBedrijfsAsync(WikiId);
-             DataBase.WikiArtikelBedrijfsDb.Remove(wikiArtikelBedrijf);
-             await DataBase.SaveChangesAsync();
-         }
-         public async Task VerwijderWikiArtikelParticulier(int WikiId)
-         {
-             WikiArtikelParticulier wikiArtikelParticulier = await GetWikiArtikelParticulier(WikiId);
-             DataBase.WikiArtikelParticuliersDb.Remove(wikiArtikelParticulier);
-             await DataBase.SaveChangesAsync();
-         }*/
+        
 
         public async Task MaakPartReview(ParticulierReview _review)
         {
