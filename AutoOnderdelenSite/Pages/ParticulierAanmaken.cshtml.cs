@@ -10,9 +10,11 @@ namespace AutoOnderdelenSite.Pages
 
         private readonly AutoStoreDatabase autoStoreDatabase;
 
-        public ParticulierAanmakenModel(AutoStoreDatabase _autoStoreDatabase)
+        private readonly ILogger<ParticulierAanmakenModel> _logger;
+        public ParticulierAanmakenModel(AutoStoreDatabase _autoStoreDatabase, ILogger<ParticulierAanmakenModel> logger)
         {
             autoStoreDatabase = _autoStoreDatabase;
+            _logger = logger;
         }
         [BindProperty]
         public Particulier Part { get; set; }
@@ -47,7 +49,7 @@ namespace AutoOnderdelenSite.Pages
                 {
                     Part.UserName = UserNameInput;
                     Part.Wachtwoord = HasherMaker.ToSHA256(WachtwoordInput);
-                    Part.Email = EmailInput;
+                    Part.Email = UserNameInput;
                     Part.Adres = AdresInput;
                     Part.VoorNaam = VoorNaamInput;
                     Part.AchterNaam = AchterNaamInput;
@@ -55,9 +57,15 @@ namespace AutoOnderdelenSite.Pages
                     Part.BetaalGegevens = BetaalGegevensInput;
 
                     await autoStoreDatabase.ToevoegenParticulier(Part);
+                    _logger.LogInformation("Er is nieuw particulier toegevoegd. Het heeft de {Naam} en {Emailadres}.", Part.UserName, Part.Email);
                     return RedirectToPage();
                 }
-                catch (Exception ex) { Errormessage = ex.Message; return Page(); }
+                catch (Exception ex) 
+                { 
+                    Errormessage = ex.Message;
+                    _logger.LogError("Er is geprobeerd een nieuw bedrijf toe te voegen, maar het heeft gefaald. Het heeft de {Naam} en {Emailadres}.{error}", UserNameInput, UserNameInput, Errormessage);
+                    return Page(); 
+                }
             }
             else
             {

@@ -9,9 +9,12 @@ namespace AutoOnderdelenSite.Pages
     {
         private readonly AutoStoreDatabase autoStoreDatabase;
 
-        public ParticulierUserPaginaModel(AutoStoreDatabase _autoStoreDatabase)
+        private readonly ILogger<ParticulierUserPaginaModel> _logger;
+
+        public ParticulierUserPaginaModel(AutoStoreDatabase _autoStoreDatabase, ILogger<ParticulierUserPaginaModel> logger)
         {
             autoStoreDatabase = _autoStoreDatabase;
+            _logger = logger;
         }
         [BindProperty]
         public Particulier Particulier { get; set; }
@@ -47,7 +50,9 @@ namespace AutoOnderdelenSite.Pages
 
         public async Task<ActionResult> OnPostDeleteAd(int Adid)
         {
-            autoStoreDatabase.VerwijderTweedeHandsAdvertentie(Adid);
+            await autoStoreDatabase.VerwijderTweedeHandsAdvertentie(Adid);
+            Particulier = await autoStoreDatabase.VindParticulierOpUserId(Convert.ToInt32(Request.Cookies["UserId"]));//Eigenlijk ook niet de mooiste oplossing.
+            _logger.LogInformation("{particulier} heeft een advertentie gedeleted.", Particulier.UserName);
 
             return RedirectToPage();
         }

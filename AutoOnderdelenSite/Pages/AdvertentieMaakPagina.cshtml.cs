@@ -10,9 +10,12 @@ namespace AutoOnderdelenSite.Pages
     {
         private readonly AutoStoreDatabase autoStoreDatabase;
 
-        public AdvertentieMaakPaginaModel(AutoStoreDatabase _autoStoreDatabase)
+        private readonly ILogger<AdvertentieMaakPaginaModel> _logger;
+
+        public AdvertentieMaakPaginaModel(AutoStoreDatabase _autoStoreDatabase, ILogger<AdvertentieMaakPaginaModel> logger)
         {
             autoStoreDatabase = _autoStoreDatabase;
+            _logger = logger;
         }
 
         [BindProperty]
@@ -49,6 +52,8 @@ namespace AutoOnderdelenSite.Pages
                 NieuwProdAd.Aantal = AantalInput;
                 NieuwProdAd.Prijs = Convert.ToDouble(PrijsInput);
                 await autoStoreDatabase.VoegNieuwAdvertentieToe(NieuwProdAd);
+                Bedrijf _bedrijf = await autoStoreDatabase.VindBedrijfOpUserId(Convert.ToInt32(Request.Cookies["UserId"]));
+                _logger.LogInformation("{Bedrijf} heeft een advertentie geplaatst voor een nieuw product.", _bedrijf.UserName);
                 return RedirectToPage("BedrijfUserPagina");
             }
             else
@@ -70,6 +75,8 @@ namespace AutoOnderdelenSite.Pages
                 refurbishedAdvertentie.StaatProduct = StaatProductInput;
                 refurbishedAdvertentie.Prijs = Convert.ToDouble(PrijsInput);
                 await autoStoreDatabase.VoegRefurbishedAdvertentieToe(refurbishedAdvertentie);
+                Bedrijf _bedrijf = await autoStoreDatabase.VindBedrijfOpUserId(Convert.ToInt32(Request.Cookies["UserId"]));
+                _logger.LogInformation("{Bedrijf} heeft een advertentie geplaatst voor een refurbished product.", _bedrijf.UserName);
                 return RedirectToPage("BedrijfUserPagina");
             }
             else
@@ -91,6 +98,8 @@ namespace AutoOnderdelenSite.Pages
                 TweedHands.StaatProduct = StaatProductInput;
                 TweedHands.Prijs = Convert.ToDouble(PrijsInput);
                 await autoStoreDatabase.VoegTweedeHandsAdvertentieToe(TweedHands);
+                Particulier _particulier = await autoStoreDatabase.VindParticulierOpUserId(Convert.ToInt32(Request.Cookies["UserId"]));
+                _logger.LogInformation("{Particulier} heeft een advertentie geplaatst voor een 2ehands product.", _particulier.UserName);
                 return RedirectToPage("ParticulierUserPagina");
             }
             else

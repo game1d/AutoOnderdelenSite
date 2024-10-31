@@ -2,6 +2,7 @@ using AutoOnderdelenSite.Data;
 using AutoOnderdelenSite.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Serilog;
 
 namespace AutoOnderdelenSite.Pages
 {
@@ -15,8 +16,9 @@ namespace AutoOnderdelenSite.Pages
         //}
         private readonly AutoStoreDatabase autoStoreDatabase;
 
-        public MainPageModel(AutoStoreDatabase _autoStoreDatabase)
+        public MainPageModel(AutoStoreDatabase _autoStoreDatabase/*, ILogger<MainPageModel> logger*/)
         {
+            //_logger = logger;
             autoStoreDatabase = _autoStoreDatabase;
         }
 

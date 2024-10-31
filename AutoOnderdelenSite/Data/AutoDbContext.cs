@@ -101,8 +101,10 @@ namespace AutoOnderdelenSite.Data
                 new BedrijfReview { ReviewId = 1, reviewerId = 1, GereviewdeId = 1, Beschrijving = "Poel levert goede wielen voor hun wagens", ProductId = 1, Score = 8, ReviewerName = "Bertus175" }
                 );
             modelBuilder.Entity<Bieding>().HasData(
-                new Bieding { AdvertentieId=1, KoopId=1, KoperNaam="Niels Poelier", Bedrag=29, KoperAdres="Kipstraat 44", Betaalgegevens="vfbsds45423785"}
+                new Bieding { AdvertentieId = 1, KoopId = 1, KoperNaam = "Niels Poelier", Bedrag = 29, KoperAdres = "Kipstraat 44", Betaalgegevens = "vfbsds45423785" }
                 );
+
+
 
         }
 

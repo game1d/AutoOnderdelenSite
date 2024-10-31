@@ -9,9 +9,12 @@ namespace AutoOnderdelenSite.Pages
     {
         private readonly AutoStoreDatabase autoStoreDatabase;
 
-        public BedrijfAanmakenModel(AutoStoreDatabase _autoStoreDatabase)
+        private readonly ILogger<BedrijfAanmakenModel> _logger;
+
+        public BedrijfAanmakenModel(AutoStoreDatabase _autoStoreDatabase, ILogger<BedrijfAanmakenModel> logger)
         {
             autoStoreDatabase = _autoStoreDatabase;
+            _logger = logger;
         }
         [BindProperty]
         public Bedrijf Bedrijf { get; set; }
@@ -23,7 +26,7 @@ namespace AutoOnderdelenSite.Pages
         public string EmailInput { get; set; }
         [BindProperty]
         public string AdresInput { get; set; }
- 
+
         [BindProperty]
         public string TelefoonNummerInput { get; set; }
         [BindProperty]
@@ -37,27 +40,44 @@ namespace AutoOnderdelenSite.Pages
 
         public async Task<ActionResult> OnPost()
         {
-            string _wachtwoord = WachtwoordInput;
-            if (Validator.WachtwoordValidator(_wachtwoord))
+            if (UserNameInput != null && UserNameInput!=null && EmailInput!=null && AdresInput!=null && TelefoonNummerInput!= null && BetaalGegevensInput !=null)
             {
-                try
-                {
-                    Bedrijf.UserName = UserNameInput;
-                    Bedrijf.Wachtwoord = HasherMaker.ToSHA256(WachtwoordInput);
-                    Bedrijf.Email = EmailInput;
-                    Bedrijf.Adres = AdresInput;
-                    Bedrijf.TelefoonNummer = TelefoonNummerInput;
-                    Bedrijf.BetaalGegevens = BetaalGegevensInput;
 
-                    await autoStoreDatabase.ToevoegenBedrijf(Bedrijf);
-                    return RedirectToPage();
+                string _wachtwoord = WachtwoordInput;
+                if (Validator.WachtwoordValidator(_wachtwoord))
+                {
+
+                    try
+                    {
+                        Bedrijf.UserName = UserNameInput;
+                        Bedrijf.Wachtwoord = HasherMaker.ToSHA256(UserNameInput);
+                        Bedrijf.Email = EmailInput;
+                        Bedrijf.Adres = AdresInput;
+                        Bedrijf.TelefoonNummer = TelefoonNummerInput;
+                        Bedrijf.BetaalGegevens = BetaalGegevensInput;
+
+                        await autoStoreDatabase.ToevoegenBedrijf(Bedrijf);
+                        _logger.LogInformation("Er is nieuw bedrijf toegevoegd. Het heeft de {Naam} en {Emailadres}.", Bedrijf.UserName, Bedrijf.Email);
+                        return RedirectToPage();
+                    }
+                    catch (Exception ex)
+                    {
+                        Errormessage = ex.Message;
+                        _logger.LogError("Er is geprobeerd een nieuw bedrijf toe te voegen, maar het heeft gefaald. Het heeft de {Naam} en {Emailadres}.{error}", UserNameInput, UserNameInput, Errormessage);
+                        return Page();
+                    }
                 }
-                catch (Exception ex) { Errormessage = ex.Message; return Page(); }
+                else
+                {
+                    Errormessage = "Je wachtwoord moet minstens 10 karakters lang zijn, een hoofdletter en een cijfer bevatten.";
+                    return Page();
+                }
+
+
             }
-            else 
-            { 
-                Errormessage = "Je wachtwoord moet minstens 10 karakters lang zijn, een hoofdletter en een cijfer bevatten."; 
-                return Page(); 
+            else {
+                Errormessage = "Vul alle benodigde gegevens in.";
+                return Page();
             }
         }
     }

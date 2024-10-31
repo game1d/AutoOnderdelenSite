@@ -10,9 +10,12 @@ namespace AutoOnderdelenSite.Pages
 
         private readonly AutoStoreDatabase autoStoreDatabase;
 
-        public ReviewschrijfPaginaModel(AutoStoreDatabase _autoStoreDatabase)
+        private readonly ILogger<ReviewschrijfPaginaModel> _logger;
+
+        public ReviewschrijfPaginaModel(AutoStoreDatabase _autoStoreDatabase, ILogger<ReviewschrijfPaginaModel> logger)
         {
             autoStoreDatabase = _autoStoreDatabase;
+            _logger = logger;
         }
 
         [BindProperty]
@@ -20,7 +23,7 @@ namespace AutoOnderdelenSite.Pages
         [BindProperty]
         public Particulier Reviewer { get; set; }
         [BindProperty]
-        public Particulier GereviewdePart {  get; set; }
+        public Particulier GereviewdePart { get; set; }
         [BindProperty]
         public Bedrijf GereviewdeBedrijf { get; set; }
 
@@ -29,18 +32,18 @@ namespace AutoOnderdelenSite.Pages
         [BindProperty]
         public int ProductIdInput { get; set; }
         [BindProperty]
-        public int ReviewerIdInput {  get; set; }
+        public int ReviewerIdInput { get; set; }
         [BindProperty]
-        public int GereviewdeInput {  get; set; }
+        public int GereviewdeInput { get; set; }
         [BindProperty]
-        public string ReviewerNameInput {  get; set; }
+        public string ReviewerNameInput { get; set; }
         [BindProperty]
-        public int ScoreInput {  get; set; }
+        public int ScoreInput { get; set; }
         [BindProperty]
-        public string OmschrijvingInput {  get; set; }
+        public string OmschrijvingInput { get; set; }
 
         [BindProperty]
-        public string Message {  get; set; }
+        public string Message { get; set; }
 
         public async void OnGet(string reviewSoort, int GereviewdeId, int reviewerId)
         {
@@ -65,27 +68,29 @@ namespace AutoOnderdelenSite.Pages
 
         public async Task<ActionResult> OnPostReviewParticulier()
         {
-            
-            ParticulierReview _review= new ParticulierReview();
-            _review.reviewerId=ReviewerIdInput;
-            _review.GereviewdeId=GereviewdeInput;
-            _review.ProductId=ProductIdInput;
-            _review.ReviewerName=ReviewerNameInput;
-            _review.Beschrijving=OmschrijvingInput;
+
+            ParticulierReview _review = new ParticulierReview();
+            _review.reviewerId = ReviewerIdInput;
+            _review.GereviewdeId = GereviewdeInput;
+            _review.ProductId = ProductIdInput;
+            _review.ReviewerName = ReviewerNameInput;
+            _review.Beschrijving = OmschrijvingInput;
             if (!Validator.ScoreValidator(ScoreInput))
-            { 
+            {
                 Message = "Geef een score tussen 0 en 10";
                 ReviewSoort = "Particulier";
                 GereviewdePart = await autoStoreDatabase.VindParticulierOpUserId(_review.GereviewdeId);
                 Reviewer = await autoStoreDatabase.VindParticulierOpUserId(_review.reviewerId);
                 products = await autoStoreDatabase.GetAlleProductenAsync();
-                return Page(); 
+                return Page();
             }
             else
             {
-            _review.Score=ScoreInput;
+                _review.Score = ScoreInput;
 
-            await autoStoreDatabase.MaakPartReview(_review);
+                await autoStoreDatabase.MaakPartReview(_review);
+
+                _logger.LogInformation("{Particulier} heeft een review geschreven over particulier {ReviewOnderwerp}.", ReviewerNameInput, GereviewdeInput);
 
                 return RedirectToPage("/ParticulierUserPagina");
             }
@@ -113,6 +118,8 @@ namespace AutoOnderdelenSite.Pages
                 _review.Score = ScoreInput;
 
                 await autoStoreDatabase.MaakBedrijfReview(_review);
+
+                _logger.LogInformation("{Particulier} heeft een review gecshreven over bedrijf {ReviewOnderwerp}.", ReviewerNameInput, GereviewdeInput);
 
                 return RedirectToPage("/ParticulierUserPagina");
             }

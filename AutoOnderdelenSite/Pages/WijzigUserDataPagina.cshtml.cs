@@ -10,9 +10,14 @@ namespace AutoOnderdelenSite.Pages
 
         private readonly AutoStoreDatabase autoStoreDatabase;
 
-        public WijzigUserDataPaginaModel(AutoStoreDatabase _autoStoreDatabase)
+        private readonly ILogger<ReviewschrijfPaginaModel> _logger;
+
+
+
+        public WijzigUserDataPaginaModel(AutoStoreDatabase _autoStoreDatabase, ILogger<ReviewschrijfPaginaModel> logger)
         {
             autoStoreDatabase = _autoStoreDatabase;
+            _logger = logger;
         }
 
         [BindProperty]
@@ -105,12 +110,14 @@ namespace AutoOnderdelenSite.Pages
                         Bedrijf.BetaalGegevens = BetaalGegevensInput;
 
                         await autoStoreDatabase.UpdateBedrijf(Bedrijf);
+                        _logger.LogInformation("{Bedrijf} heeft zijn gegevens gewijzigd", Bedrijf.UserName);
                         return RedirectToPage("/BedrijfUserPagina");
                     }
                     catch (Exception ex)
                     {
                         Errormessage = ex.Message;
-                        await LoadPage();
+                        await LoadPage();//Er moet hier wel nog een interceptie bij dat als een klant gegevens per ongeluk verkeerd invult dit geen clutter creeert.
+                        _logger.LogError("{Bedrijf} heeft geprobeerd zijn gegevens te gewijzigen, maar het is mislukt.{Error}", Bedrijf.UserName, Errormessage);
                         return Page();
                     }
                 }
@@ -129,12 +136,14 @@ namespace AutoOnderdelenSite.Pages
                             Bedrijf.BetaalGegevens = BetaalGegevensInput;
 
                             await autoStoreDatabase.UpdateBedrijf(Bedrijf);
+                            _logger.LogInformation("{Bedrijf} heeft zijn gegevens en zijn WACHTWOORD gewijzigd", Bedrijf.UserName);
                             return RedirectToPage("/BedrijfUserPagina");
                         }
                         catch (Exception ex)
                         {
                             Errormessage = ex.Message;
                             await LoadPage();
+                            _logger.LogError("{Bedrijf} heeft geprobeerd zijn gegevens en zijn WACHTWOORD te gewijzigen, maar het is mislukt.{Error}", Bedrijf.UserName,Errormessage);
                             return Page();
                         }
                     }
@@ -182,12 +191,14 @@ namespace AutoOnderdelenSite.Pages
                         Part.BetaalGegevens = BetaalGegevensInput;
 
                         await autoStoreDatabase.UpdateParticulier(Part);
+                        _logger.LogInformation("{Particulier} heeft zijn gegevens gewijzigd", Part.UserName);
                         return RedirectToPage("/ParticulierUserPagina");
                     }
                     catch (Exception ex)
                     {
                         Errormessage = ex.Message;
                         await LoadPage();
+                        _logger.LogError("{Particulier} heeft geprobeerd zijn gegevens, maar het is mislukt.{Error}", Part.UserName, Errormessage);
                         return Page();
                     }
                 }
@@ -206,12 +217,14 @@ namespace AutoOnderdelenSite.Pages
                             Part.BetaalGegevens = BetaalGegevensInput;
 
                             await autoStoreDatabase.UpdateParticulier(Part);
+                            _logger.LogInformation("{Particulier} heeft zijn gegevens en zijn WACHTWOORD gewijzigd", Part.UserName);
                             return RedirectToPage("/ParticulierUserPagina");
                         }
                         catch (Exception ex)
                         {
                             Errormessage = ex.Message;
                             await LoadPage();
+                            _logger.LogError("{Particulier} heeft geprobeerd zijn gegevens en zijn WACHTWOORD te gewijzigen, maar het is mislukt.{Error}", Part.UserName, Errormessage);
                             return Page();
                         }
                     }
@@ -242,13 +255,17 @@ namespace AutoOnderdelenSite.Pages
 
         public async Task<ActionResult> OnPostVerwijderBedrijf()
         {
-            await autoStoreDatabase.VerwijderBedrijf(Convert.ToInt32(Request.Cookies["UserId"]));
+            Bedrijf _bedrijf = await autoStoreDatabase.VindBedrijfOpUserId(Convert.ToInt32(Request.Cookies["UserId"]));
+            await autoStoreDatabase.VerwijderBedrijf(_bedrijf.UserId);
+            _logger.LogInformation("{Bedrijf} heeft zijn account verwijderd", _bedrijf.UserName);
             return RedirectToPage("/MainPage");
         }
 
         public async Task<ActionResult> OnPostVerwijderParticulier()
         {
-            await autoStoreDatabase.VerwijderParticulier(Convert.ToInt32(Request.Cookies["UserId"]));
+            Particulier _particulier = await autoStoreDatabase.VindParticulierOpUserId(Convert.ToInt32(Request.Cookies["UserId"]));
+            await autoStoreDatabase.VerwijderParticulier(_particulier.UserId);
+            _logger.LogInformation("{Particulier} heeft zijn account verwijderd", _particulier.UserName);
             return RedirectToPage("/MainPage");
         }
 
