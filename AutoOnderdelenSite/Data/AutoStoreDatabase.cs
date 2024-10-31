@@ -357,11 +357,13 @@ namespace AutoOnderdelenSite.Data
         }
         public async Task<List<WikiArtikelBedrijf>> GetWikiArtikelBedrijfsAsync()
         {
-            return DataBase.WikiArtikelBedrijfsDb.Include(p => p.Product).ToList();
+            return DataBase.WikiArtikelBedrijfsDb.Include(p => p.Product)
+                                                .Include(q=>q.User).ToList();
         }
         public async Task<List<WikiArtikelParticulier>> GetArtikelParticuliersAsync()
         {
-            return DataBase.WikiArtikelParticuliersDb.Include(p => p.Product).ToList();
+            return DataBase.WikiArtikelParticuliersDb.Include(p => p.Product)
+                                                    .Include(q => q.User).ToList();
         }
         public async Task<List<ProductWikiVerzameling>> ProductWikiVerzamelingsAsync()
         {

@@ -12,15 +12,16 @@ namespace AutoOnderdelenSite.Pages
 
         public List<WikiArtikelBedrijf> WikiArtikelBedrijfs {  get; set; }
         public List<WikiArtikelParticulier> WikiArtikelParticuliers { get; set; }
-        
-        public WikiModel(AutoDbContext context)
+        private readonly AutoStoreDatabase autoStoreDatabase;
+        public WikiModel(AutoDbContext context, AutoStoreDatabase _autoStoreDatabase)
         {
             _context = context;
+            autoStoreDatabase = _autoStoreDatabase;
         }
         public async Task OnGetAsync()
         {
-            WikiArtikelBedrijfs = await _context.WikiArtikelBedrijfsDb.Include( w => w.Product).ToListAsync();
-            WikiArtikelParticuliers = await _context.WikiArtikelParticuliersDb.Include(w => w.Product).ToListAsync();
+            WikiArtikelBedrijfs = await autoStoreDatabase.GetWikiArtikelBedrijfsAsync();
+            WikiArtikelParticuliers = await autoStoreDatabase.GetArtikelParticuliersAsync();
         }
            
        

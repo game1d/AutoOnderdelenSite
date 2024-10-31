@@ -19,10 +19,10 @@
         @foreach(var artikel in Model.WikiArtikelBedrijfs)
         {
             <tr>
-                <td>@artikel.AuteurBedrijf</td>
-                <td>@artikel.Product</td>
+                <td>@artikel.User.UserName</td>
+                <td>@artikel.Product.ProductNaam</td>
                 <td>@artikel.Omschrijving</td>
-                <td>@artikel.Foto</td>
+                @* <td>@artikel.Foto</td> *@
             </tr>
         }
     </tbody>
@@ -44,10 +44,10 @@
         @foreach (var artikel in Model.WikiArtikelParticuliers)
         {
             <tr>
-                <td>@artikel.AuteurParticulier</td>
-                <td>@artikel.Product</td>
+                <td>@artikel.User.UserName</td>
+                <td>@artikel.Product.ProductNaam</td>
                 <td>@artikel.Omschrijving</td>
-                <td>@artikel.Foto</td>
+                @* <td>@artikel.Foto</td> *@
             </tr>
         }
     </tbody>
