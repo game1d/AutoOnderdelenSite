@@ -129,6 +129,52 @@
     </table>
 }
 
+@if (Model.WikisParticulierResult!=null)
+{
+    <br />
+    <h3>wikis van particulieren</h3>
+    <table class="table">
+        <tr>
+            <th>Productnaam</th>
+            <th>Producttype</th>
+            <th>Omschrijving</th>
+            <th>schrijver wiki</th>
+        </tr>
+        @foreach (Models.WikiArtikelParticulier _wiki in Model.WikisParticulierResult)
+        {
+            <tr>
+                <td>@_wiki.Product.ProductNaam</td>
+                <td>@_wiki.Product.ProductType</td>
+                <td>@_wiki.Omschrijving</td>
+                <td>@_wiki.User.UserName</td>
+            </tr>
+        }
+    </table>
+}
+
+@if (Model.WikisBedrijfResult != null)
+{
+    <br />
+    <h3>wikis van bedrijven</h3>
+    <table class="table">
+        <tr>
+            <th>Productnaam</th>
+            <th>Producttype</th>
+            <th>Omschrijving</th>
+            <th>schrijver wiki</th>
+        </tr>
+        @foreach (Models.WikiArtikelBedrijf _wiki in Model.WikisBedrijfResult)
+        {
+            <tr>
+                <td>@_wiki.Product.ProductNaam</td>
+                <td>@_wiki.Product.ProductType</td>
+                <td>@_wiki.Omschrijving</td>
+                <td>@_wiki.User.UserName</td>
+            </tr>
+        }
+    </table>
+}
+
 <br />
 <h3>Zoek hier naar Users en reviews. Let op Hoofdletters!</h3>
 <br />

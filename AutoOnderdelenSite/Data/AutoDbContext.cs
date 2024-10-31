@@ -23,8 +23,8 @@ namespace AutoOnderdelenSite.Data
         public DbSet<Beheerder> BeheerderDb { get; set; }
 
         public DbSet<WikiArtikelBedrijf> WikiArtikelBedrijfsDb { get; set; }
-        public DbSet<WikiArtikelParticulier>WikiArtikelParticuliersDb { get; set; }
-        public DbSet<ProductWikiVerzameling>ProductWikiVerzameling { get; set; }
+        public DbSet<WikiArtikelParticulier> WikiArtikelParticuliersDb { get; set; }
+        public DbSet<ProductWikiVerzameling> ProductWikiVerzameling { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -104,8 +104,12 @@ namespace AutoOnderdelenSite.Data
                 new Bieding { AdvertentieId = 1, KoopId = 1, KoperNaam = "Niels Poelier", Bedrag = 29, KoperAdres = "Kipstraat 44", Betaalgegevens = "vfbsds45423785" }
                 );
 
-
-
+            modelBuilder.Entity<WikiArtikelBedrijf>().HasData(
+                new WikiArtikelBedrijf { ProductId = 1, WikiId = 1, UserId = 1, Omschrijving = "Dit zijn de hoge kwaliteit wielen van het automerk Poel." }
+                );
+            modelBuilder.Entity<WikiArtikelParticulier>().HasData(
+                new WikiArtikelParticulier { ProductId = 1, WikiId = 1, UserId = 1, Omschrijving = "Dit zijn de wielen van het automerk Poel. Ze zijn oke." }
+                );
         }
 
     }

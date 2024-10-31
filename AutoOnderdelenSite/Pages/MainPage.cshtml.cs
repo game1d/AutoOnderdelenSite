@@ -37,6 +37,16 @@ namespace AutoOnderdelenSite.Pages
         [BindProperty]
         public IList<NieuwProductAdvertentie> nieuwAdvResult { get; set; }
 
+        public IList<WikiArtikelParticulier> WikisParticulier { get; set; }
+
+        [BindProperty]
+        public IList<WikiArtikelParticulier> WikisParticulierResult { get; set; }
+
+        public IList<WikiArtikelBedrijf> WikisBedrijf { get; set; }
+
+        [BindProperty]
+        public IList<WikiArtikelBedrijf> WikisBedrijfResult { get; set; }
+
         [BindProperty]
         public string currentUserId { get; set; }
 
@@ -45,6 +55,7 @@ namespace AutoOnderdelenSite.Pages
 
         [BindProperty]
         public string ZoekTerm {  get; set; }
+
 
         public IList<Bedrijf> Bedrijven { get; set; }
         [BindProperty]
@@ -78,7 +89,10 @@ namespace AutoOnderdelenSite.Pages
             tweedeHandsAdvertenties = await autoStoreDatabase.GetTweedeHandsAdvertentiesAsync();
             refurbishedAdvertenties = await autoStoreDatabase.GetRefurbishedAdvertentiesAsync();
             nieuwAdvertenties = await autoStoreDatabase.GetNieuweProductAdvertentiesAsync();
-            foreach(var adv in tweedeHandsAdvertenties)
+            WikisParticulier = await autoStoreDatabase.GetArtikelParticuliersAsync();
+            WikisBedrijf = await autoStoreDatabase.GetWikiArtikelBedrijfsAsync();
+
+            foreach (var adv in tweedeHandsAdvertenties)
             {
                 if (adv.Product.ProductNaam.Contains(ZoekTerm))
                 {
@@ -97,6 +111,21 @@ namespace AutoOnderdelenSite.Pages
                 if (adv.Product.ProductNaam.Contains(ZoekTerm))
                 {
                     nieuwAdvResult.Add(adv);
+                }
+            }
+
+            foreach (var wiki in WikisParticulier)
+            {
+                if(wiki.Omschrijving.Contains(ZoekTerm))
+                {
+                    WikisParticulierResult.Add(wiki);
+                }
+            }
+            foreach (var wiki in WikisBedrijf)
+            {
+                if (wiki.Omschrijving.Contains(ZoekTerm))
+                {
+                    WikisBedrijfResult.Add(wiki);
                 }
             }
 
