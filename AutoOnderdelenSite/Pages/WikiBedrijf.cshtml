@@ -5,23 +5,25 @@
 }
 <h3>Nieuw BedrijfsArtikel Toevoegen</h3>
 
-<form method="post">
-    <div class="form-group">
-        <label for="AuteurBedrijf">Bedrijf</label>
-        <input type="text" asp-asp-for="wikiArtikel.AuteurBedrijf" class="form-control" />
-    </div>
+ <form method="post">
+
     <div class="form-group">
         <label for="Product">Product</label>
-        <input type="text" asp-asp-for="wikiArtikel.Product" class="form-control" />
+        <select asp-for="ProductIdInput" name="ProductIdInput" id="ProductIdInput">
+            @foreach (Models.Product _product in Model.products)
+            {
+                <option value="@_product.ProductId">@_product.ProductNaam</option>
+            }
+        </select>
     </div>
     <div class="form-group">
         <label for="Omschrijving">Omschrijving</label>
-        <input type="text" asp-asp-for="wikiArtikel.Omschrijving" class="form-control" />
+        <input type="text" asp-for="WikiOmschrijving" name="WikiOmschrijving" id="WikiOmschrijving" ass="form-control" />
     </div>
-    <div class="form-group">
+@*     <div class="form-group">
         <label for="Foto">Foto</label>
         <input type="text" asp-asp-for="wikiArtikel.Foto" class="form-control" />
-    </div>
+    </div> *@
     <hr />
     <button type="submit" class="btn btn-primary">Opslaan</button>
-</form>
+</form> 

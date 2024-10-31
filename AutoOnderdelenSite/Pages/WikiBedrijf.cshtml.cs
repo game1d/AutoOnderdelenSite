@@ -2,6 +2,7 @@ using AutoOnderdelenSite.Data;
 using AutoOnderdelenSite.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.FileSystemGlobbing.Internal.PathSegments;
 using SQLitePCL;
 
 namespace AutoOnderdelenSite.Pages
@@ -13,21 +14,34 @@ namespace AutoOnderdelenSite.Pages
         [BindProperty]
         public WikiArtikelBedrijf WikiArtikel { get; set; }
 
-        public WikiBedrijfModel(AutoDbContext context)
+       
+        private readonly AutoStoreDatabase autoStoreDatabase;
+
+        [BindProperty]
+        public string WikiOmschrijving { get; set; }
+        [BindProperty]
+        public int ProductIdInput {  get; set; }
+
+        [BindProperty]
+        public List<Product> products { get; set; }
+
+        public WikiBedrijfModel(AutoStoreDatabase _autoStoreDatabase)
         {
-            this.context = context;
+            autoStoreDatabase = _autoStoreDatabase;
         }
-        public void OnGet()
+        public async void OnGet()
         {
+            products = await autoStoreDatabase.GetAlleProductenAsync();
         }
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-            context.WikiArtikelBedrijfsDb.Add(WikiArtikel);
-            await context.SaveChangesAsync();
+            WikiArtikel.ProductId=ProductIdInput;
+            WikiArtikel.Omschrijving = WikiOmschrijving;
+            WikiArtikel.UserId= Convert.ToInt32(Request.Cookies["UserId"]); 
+            
+            
+            await autoStoreDatabase.ToevoegenWikiArtikelBedrijf(WikiArtikel);
+
             return RedirectToPage("WikiBedrijf");
         }
     }

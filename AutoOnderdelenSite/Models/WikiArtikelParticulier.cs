@@ -6,9 +6,11 @@ namespace AutoOnderdelenSite.Models
     {
         [Key]
         public int WikiId {  get; set; }
-        public string? AuteurParticulier { get; set; }
+        public int UserId {  get; set; }
+        public Particulier User { get; set; }
+        public int ProductId {  get; set; } 
         public Product Product { get; set; }
         public string Omschrijving {  get; set; }
-        public string Foto { get; set; }
+        //public string Foto { get; set; }
     }
 }
