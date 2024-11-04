@@ -360,11 +360,37 @@ namespace AutoOnderdelenSite.Data
             return DataBase.WikiArtikelBedrijfsDb.Include(p => p.Product)
                                                 .Include(q=>q.User).ToList();
         }
+
+        public async Task<WikiArtikelBedrijf> GetSingletWikiArtikelBedrijfsAsync(int wikiId)
+        {
+            var result = new WikiArtikelBedrijf();
+            var LijstArtikelen = await GetWikiArtikelBedrijfsAsync();
+            foreach (WikiArtikelBedrijf _wiki in LijstArtikelen) 
+            {
+                if (_wiki.WikiId == wikiId) { result = _wiki; }
+            }
+
+            return result;
+        }
+
         public async Task<List<WikiArtikelParticulier>> GetArtikelParticuliersAsync()
         {
             return DataBase.WikiArtikelParticuliersDb.Include(p => p.Product)
                                                     .Include(q => q.User).ToList();
         }
+
+        public async Task<WikiArtikelParticulier> GetSingletArtikelParticulierAsync(int wikiId)
+        {
+            var result = new WikiArtikelParticulier();
+            var LijstArtikelen = await GetArtikelParticuliersAsync();
+            foreach (WikiArtikelParticulier _wiki in LijstArtikelen)
+            {
+                if (_wiki.WikiId == wikiId) { result = _wiki; }
+            }
+
+            return result;
+        }
+
         public async Task<List<ProductWikiVerzameling>> ProductWikiVerzamelingsAsync()
         {
             return DataBase.ProductWikiVerzameling.Include(p => p.Product).ToList();

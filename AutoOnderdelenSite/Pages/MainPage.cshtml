@@ -129,7 +129,7 @@
     </table>
 }
 
-@if (Model.WikisParticulierResult!=null)
+@if (Model.WikisParticulierResult != null)
 {
     <br />
     <h3>wikis van particulieren</h3>
@@ -147,6 +147,9 @@
                 <td>@_wiki.Product.ProductType</td>
                 <td>@_wiki.Omschrijving</td>
                 <td>@_wiki.User.UserName</td>
+            </tr>
+            <tr>
+                <td><a class="link-primary" asp-page="WikiArtikelPagina" asp-route-wikiSoort="Particulier" asp-route-WikiId="@_wiki.WikiId">naar wiki artikel pagina</a></td>
             </tr>
         }
     </table>
@@ -170,6 +173,9 @@
                 <td>@_wiki.Product.ProductType</td>
                 <td>@_wiki.Omschrijving</td>
                 <td>@_wiki.User.UserName</td>
+            </tr>
+            <tr>
+                <td><a class="link-primary" asp-page="WikiArtikelPagina" asp-route-wikiSoort="Bedrijf" asp-route-WikiId="@_wiki.WikiId">naar wiki artikel pagina</a></td>
             </tr>
         }
     </table>
@@ -202,7 +208,7 @@
                 <td>@_particulier.TelefoonNummer</td>
                 <td>@_particulier.Email</td>
             </tr>
-            if(_particulier.Reviews!=null)
+            if (_particulier.Reviews != null)
             {
                 <tr><td>Reviews</td></tr>
                 <tr>
@@ -210,7 +216,7 @@
                     <th>score</th>
                     <th>beschrijving</th>
                 </tr>
-                
+
             }
             @foreach (Models.ParticulierReview _partReview in _particulier.Reviews)
             {

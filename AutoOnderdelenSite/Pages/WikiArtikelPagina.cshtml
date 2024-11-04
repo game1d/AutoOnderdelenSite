@@ -1,0 +1,25 @@
+﻿@page
+@model AutoOnderdelenSite.Pages.WikiArtikelPaginaModel
+@{
+}
+
+@if (@Model.WikiSoort == "Bedrijf")
+{
+    <h3>Dit is de pagina van @Model.WikiArtikelBedrijf.Product.ProductNaam. Geschreven door @Model.WikiArtikelBedrijf.User.UserName:</h3>
+
+    <br />
+
+    <h4>@Model.WikiArtikelBedrijf.Omschrijving</h4>
+}
+
+
+@if (@Model.WikiSoort == "Particulier")
+{
+    <h3>Dit is de pagina van @Model.WikiArtikelParticulier.Product.ProductNaam. Geschreven door @Model.WikiArtikelParticulier.User.UserName:</h3>
+
+    <br />
+
+    <h4>@Model.WikiArtikelParticulier.Omschrijving</h4>
+}
+
+<a class="btn btn-primary" asp-page="MainPage"> Home Page </a>
